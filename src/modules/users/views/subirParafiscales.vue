@@ -3,7 +3,7 @@
         <div class="col-md-4 offset-md-4">
             <div class="card">
                 <div class="card-title">
-                    <h1>Registrarte</h1>
+                    <h1>Subir Parafiscales</h1>
                 </div>
                 <div class="card-body">
                     <form>
@@ -30,10 +30,7 @@
                             <input type="password" class="form-control" id="inputValidPasswordRegister"
                                 aria-describedby="inputValidPasswordRegister" placeholder="Validar contraseña">
                         </div>
-                        <div class="mb-3">
-                            <router-link to="/">¿Ya tienes una cuenta? Inicia sesión <strong>aquí</strong></router-link>
-                        </div>
-                        <button type="submit" class="btn text-light" id="boton">Registrarte</button>
+                        <button type="submit" class="btn text-light" id="boton">Subir información</button>
                     </form>
                 </div>
 
@@ -53,8 +50,5 @@ h1 {
 #boton {
     background: #f7941d;
 
-}
-a{
-    text-decoration: none;
 }
 </style>

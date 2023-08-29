@@ -1,5 +1,5 @@
 <template>
-    <div class="container text-center mt-5">
+    <div class="container text-center mt-2 my-4">
         <div class="col-md-4 offset-md-4">
             <div class="card">
                 <div class="card-title">
@@ -18,9 +18,22 @@
 
                         </div>
                         <div class="mb-3">
+                            <input type="text" class="form-control" id="inputApellidosRegister"
+                                aria-describedby="inputIdentificacionRegister" placeholder="Identificacion">
+
+                        </div>
+                        <div class="mb-3">
                             <input type="email" class="form-control" id="inputEmailRegister"
                                 aria-describedby="inputEmailRegister" placeholder="Correo">
 
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" aria-label="rolSelect">
+                                <option selected>Rol</option>
+                                <option value="2">Proveedor</option>
+                                <option value="3">Usuario</option>
+                                <option value="4">Auditor</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" id="inputPasswordRegister"
@@ -50,11 +63,14 @@
 h1 {
     color: #0072bc;
 }
+
 #boton {
     background: #f7941d;
 
 }
-a{
+
+a {
     text-decoration: none;
+    color: #0072bc;
 }
 </style>

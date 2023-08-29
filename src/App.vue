@@ -4,7 +4,7 @@ import Encabezado from './common/Encabezado.vue';
 </script>
 
 <template>
-  <Encabezado></Encabezado>
+  <Encabezado /> 
   <RouterView />
 </template>
 

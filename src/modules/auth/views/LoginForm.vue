@@ -1,20 +1,25 @@
 <template>
-    <div class="container text-center mt-4">
+    <div class="container text-center mt-2">
         <div class="col-md-4 offset-md-4">
             <div class="card">
                 <div class="card-title">
                     <h1>Iniciar Sesión</h1>
                 </div>
-                <form class="card-body">
+                <form class="card-body" @submit.prevent="onSubmit">
                     <div class="mb-3">
-                        
-                        <input type="email" class="form-control" id="inputEmailLogin" 
-                            aria-describedby="inputEmailLogin" placeholder="Correo o username">
+
+                        <input type="text" class="form-control" id="inputIdentificacionLogin" 
+                            aria-describedby="inputIdentificacionLogin"
+                            placeholder="Identificacion" 
+                            v-model="userForm.Identificacion" 
+                            required>
                     </div>
                     <div class="mb-3">
-                        
                         <input type="password" class="form-control" id="inputPasswordLogin"
-                            aria-describedby="inputEmailLogin" placeholder="Contraseña">
+                            aria-describedby="inputPasswordLogin" 
+                            placeholder="Contraseña"
+                            v-model="userForm.Password" 
+                            required>
                     </div>
                     <div class="mb-3">
                         <router-link to="/register">¿No tienes una cuenta? Registrate <strong>aquí</strong></router-link>
@@ -26,8 +31,31 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
+import { inject, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import useAuth from '../../../guards/authGuard'
 
+const userForm = ref({ Identificacion: '', Password: '' })
+const router = useRouter()
+const { loginUser, authStatus } = useAuth()
+const swal = inject('$swal')
+
+const onSubmit = async () => {
+    try {
+        const status = await loginUser(userForm.value)
+        if (status === 'authenticated') {
+            //TODO message success
+            router.push({ name: 'DatosUsuario' })
+            swal("Success", "Inicio de sesion exitoso", 'success')
+        } else {
+            //TODO: message error
+            swal('Error', 'credenciales invalidas', 'error')
+        }
+    } catch (error) {
+        swal("Erros", "Ha ocurrido un error", 'error')
+    }
+}
 </script>
 
 <style scoped>
@@ -39,8 +67,10 @@ h1 {
     background: #f7941d;
 
 }
-a{
+
+a {
     text-decoration: none;
+    color:#0072bc;
 }
 </style>
   

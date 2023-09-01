@@ -20,6 +20,7 @@ export default defineConfig({
       '@Modules': fileURLToPath(new URL('./src/modules/', import.meta.url)),
       '@Guards': fileURLToPath(new URL('./src/guards/', import.meta.url)),
       '@Router': fileURLToPath(new URL('./src/router/', import.meta.url)),
+      '@Components': fileURLToPath(new URL('./src/components/', import.meta.url)),
     }
   }
 })

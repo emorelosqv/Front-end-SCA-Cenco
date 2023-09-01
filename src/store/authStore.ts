@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async createUser(userCreate: ICreateUser) {
       try {
-        const { status, data } = await cencoApi.post("/usuario/registrar", userCreate);
+        const { status, data } = await cencoApi.post("Auth/registrar-usuario", userCreate);
         this.user = data.usuario;
         return { status };
       } catch (error) {
@@ -34,6 +34,8 @@ export const useAuthStore = defineStore('auth', {
           this.setToken(data.data.sessionToken);
           this.user = data.data.usuario;
           localStorage.setItem("idUsuario", data.data.usuario.identificacion)
+          localStorage.setItem("rol", data.data.usuario.idRol)
+          localStorage.setItem("nombreCompleto", data.data.usuario.nombres + ' ' + data.data.usuario.apellidos)
           this.status = "authenticated";
         }
         return this.status

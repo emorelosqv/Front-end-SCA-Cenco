@@ -6,7 +6,6 @@ interface User {
     Apellidos: string;
     Correo: string;
     Password: string;
-    Rol:number;
     FechaCreacion: Date;
     
 }
@@ -19,15 +18,11 @@ export interface IAuth {
 }
 
 export interface ICreateUser {
-    info: {
-        identifacion: number;
-        nombres: string;
-        apellidos: string;
-        correo: string;
-        password: string;
-        rol:number;
-        fechaCreacion: Date;    
-    },
+    Identifacion: number;
+    NombreCompleto: string;
+    Correo: string;
+    Password: string;
+    ValidarPassword: string;
 }
 
 export interface ILoginUser {

@@ -6,42 +6,44 @@
                     <h1>Registrarte</h1>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form @submit.prevent="onSubmit">
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="inputNombresRegistrer"
-                                aria-describedby="inputNombresRegistrer" placeholder="Nombres">
+                            <input type="text" class="form-control" id="inputNombreRegistrer"
+                                aria-describedby="inputNombreRegistrer" 
+                                required placeholder="Nombre completo"
+                                v-model="userForm.NombreCompleto">
 
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <input type="text" class="form-control" id="inputApellidosRegister"
-                                aria-describedby="inputApellidosRegister" placeholder="Apellidos">
+                                aria-describedby="inputApellidosRegister" required placeholder="Apellidos">
 
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <input type="text" class="form-control" id="inputApellidosRegister"
-                                aria-describedby="inputIdentificacionRegister" placeholder="Identificacion">
+                                aria-describedby="inputIdentificacionRegister" 
+                                required placeholder="Identificacion"
+                                v-model="userForm.Identificacion">
 
                         </div>
                         <div class="mb-3">
                             <input type="email" class="form-control" id="inputEmailRegister"
-                                aria-describedby="inputEmailRegister" placeholder="Correo">
+                                aria-describedby="inputEmailRegister" 
+                                required placeholder="Correo"
+                                v-model="userForm.Correo">
 
                         </div>
                         <div class="mb-3">
-                            <select class="form-select" aria-label="rolSelect">
-                                <option selected>Rol</option>
-                                <option value="2">Proveedor</option>
-                                <option value="3">Usuario</option>
-                                <option value="4">Auditor</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
                             <input type="password" class="form-control" id="inputPasswordRegister"
-                                aria-describedby="inputPasswordRegister" placeholder="Contraseña">
+                                aria-describedby="inputPasswordRegister" 
+                                required placeholder="Contraseña"
+                                v-model="userForm.Password">
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" id="inputValidPasswordRegister"
-                                aria-describedby="inputValidPasswordRegister" placeholder="Validar contraseña">
+                                aria-describedby="inputValidPasswordRegister" 
+                                required placeholder="Validar contraseña"
+                                v-model="userForm.ValidarPassword">
                         </div>
                         <div class="mb-3">
                             <router-link to="/">¿Ya tienes una cuenta? Inicia sesión <strong>aquí</strong></router-link>
@@ -49,13 +51,49 @@
                         <button type="submit" class="btn text-light" id="boton">Registrarte</button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
+import { inject, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import useAuth from '../composables/useAuth'
+
+const userForm = ref({
+    NombreCompleto: '',
+    Identificacion: '',
+    Correo: '',
+    Password: '',
+    ValidarPassword: ''
+})
+
+const router = useRouter()
+const { createUser, authStatus } = useAuth()
+const swal = inject('$swal')
+
+const onSubmit = async () => {
+    try {
+        if (userForm.value.Password != userForm.value.ValidarPassword) {
+            swal('Error', 'Las contraseñas deben coincidir', 'error')
+            return 0
+        } else {
+            const status = await createUser(userForm.value)
+            if (status.status === 200) {
+                //TODO message success
+                router.push({ name: 'login' })
+                swal("Success", "Usuario creado exitosamente", 'success')
+            } else {
+                //TODO: message error
+                swal('Error', 'Credenciales invalidas', 'error')
+            }
+        }
+    } catch (error) {
+        //console.log(error)
+        swal("Erros", "Ha ocurrido un error", 'error')
+    }
+}
 
 </script>
 

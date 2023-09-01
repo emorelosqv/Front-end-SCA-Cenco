@@ -8,8 +8,7 @@ const useAuth = () => {
     const authStore = useAuthStore();
     const router = useRouter();
 
-    const createUser = async (user: ICreateUser): Promise<{ status: number}> => {
-        //TODO: dispatch action create user
+    const createUser = async (user: ICreateUser): Promise<any> => {
         const { status } = await authStore.createUser(user);
         return { status };
     }

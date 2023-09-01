@@ -1,102 +1,37 @@
-<template>
-    <div class="container text-center mt-4">
-        <div class="row my-3">
-            <div class="col">
-                <router-link to="/subir-parafiscales">
-                    <div class="card">
-                        <div class="card-title">
-                            <h2>Subir parafiscales</h2>
-                            <font-awesome-icon :icon="['fas', 'file']" 
-                            beat
-                            style="color: #f7941d;" 
-                            size="2xl" />
+<script setup>
+ import AdministradorData from '@/components/users/AdministradorData.vue'
+ import AuditorData from '@/components/users/AuditorData.vue'
+ import ProveedorData from '@/components/users/ProveedorData.vue'
 
-                        </div>
-                    </div>
-                </router-link>
-            </div>
-            <div class="col">
-                <router-link  to="/agendar-entrega">
-                    <div class="card">
-                        <div class="card-title">
-                            <h2>Agendar entrega</h2>
-                            <font-awesome-icon :icon="['fas', 'calendar-days']" 
-                            style="color: #f7941d;"
-                            beat
-                            size="2xl" />
-                        </div>
-                    </div>
-                </router-link>
-            </div>
-        </div>
-        <div class="row my-3">
-
-            <div class="col">
-                <router-link to="/acontecimientos">
-                    <div class="card">
-                        <div class="card-title">
-                            <h2>Registrar acontecimientos</h2>
-                            <font-awesome-icon :icon="['fas', 'box-archive']" 
-                            style="color: #f7941d;" 
-                            beat
-                            size="2xl" />
-                        </div>
-                    </div>
-                </router-link>
-            </div>
-            <div class="col" colspan="1">
-                <router-link to="/auditar-acontecimientos">
-                    <div class="card">
-                        <div class="card-title">
-                            <h2>Auditoria de acontecimientos</h2>
-                            <font-awesome-icon :icon="['fas', 'magnifying-glass']"
-                            beat
-                            style="color: #f7941d;"
-                            size="2xl"
-                             />
-                        </div>
-                    </div>
-                </router-link>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col" colspan="1">
-                <router-link to="/manuales">
-                    <div class="card">
-                        <div class="card-title">
-                            <h2>Manuales</h2>
-                            <font-awesome-icon :icon="['fas', 'book']" 
-                            beat
-                            style="color: #f7941d;"
-                            size="2xl"/>
-                        </div>
-                    </div>
-                </router-link>
-            </div>
-            <div class="col">
-                <router-link to="/ver-aforo">
-                    <div class="card">
-                        <div class="card-title">
-                            <h2>Ver aforo en tiendas</h2>
-                            <font-awesome-icon :icon="['fas', 'eye']" 
-                            beat
-                            style="color: #f7941d;"
-                            size="2xl" />
-
-                        </div>
-                    </div>
-                </router-link>
-            </div>
-        </div>
-    </div>
-</template>
-
-<script lang="ts" setup>
-
+const rol = Number(localStorage.getItem("rol"))
+let administrador = false
+let auditor = false
+let proveedor = false
+switch (rol) {
+    case 1:
+        administrador = true
+        break;
+    case 2:
+        auditor = true
+        break;
+    case 3:
+        proveedor = true
+        break;
+    default:
+        console.log("Error! No hay un rol definido")
+        break;
+}
 </script>
 
+<template>
+    <AdministradorData v-if="administrador"/>
+    <AuditorData v-if="auditor"/>
+    <ProveedorData v-if="proveedor"/>
+</template>
+
 <style scoped>
-h1, h2 {
+h1,
+h2 {
     color: #0072bc;
 }
 
@@ -105,8 +40,8 @@ h1, h2 {
 
 }
 
-a{
-   text-decoration: none; 
+a {
+    text-decoration: none;
 }
 </style>
   

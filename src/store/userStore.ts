@@ -1,34 +1,46 @@
 import cencoApi from '@/services/cencoApi';
-import type { IStatus, ISubirArchivo, status } from '@/models/archivo.model';
+import type { IAgendarEntrega} from '@/models/entrega.model';
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
-  // arrow function recommended for full type inference
+  state: () => {
+    return {
+      status: 0,
+      solicitudesPendientes: []
+    }
+  },
   actions: {
-    state: (): IStatus => {
-      return {
-        // all these properties will have their type inferred automatically
-        status: "no-guardado"
-      }
-    },
-    async subirArchivo(archivo: ISubirArchivo): Promise<status> {
+    async agendarEntrega(entrega: IAgendarEntrega): Promise<any> {
       try {
-        console.log(archivo)
 
-        const { status, data } = await cencoApi.post("UserData/subir-data",archivo,  {headers :{
+        const { status, data } = await cencoApi.post("UserData/agendar-entrega",entrega ,  {headers :{
           'Content-Type': 'multipart/form-data',
           "Access-Control-Allow-Origin": "*",
         }});
         if (status === 200) {
-          this.status = "guardado";
+          this.status = status;
         }
         return this.status
       } catch (error) {
         
-        this.status = "no-guardado"
+        this.status = 200
         return this.status
       }
     },
 
+    async obtenerSolicitudesPendientes(){
+      try {
+        const res = await cencoApi.get("UserData/obtener-solicitudes-pendientes")
+        const statusC = res.status
+        this.solicitudesPendientes = JSON.parse(res.data.data)
+        return {statusC, res}
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    } 
   },
+  getters:{
+    getSolicitudesPendientes: (state) => state.solicitudesPendientes
+  }
 })

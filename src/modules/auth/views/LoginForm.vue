@@ -34,7 +34,7 @@
 <script setup>
 import { inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import useAuth from '../../../guards/authGuard'
+import useAuth from '../composables/useAuth'
 
 const userForm = ref({ Identificacion: '', Password: '' })
 const router = useRouter()
@@ -45,12 +45,10 @@ const onSubmit = async () => {
     try {
         const status = await loginUser(userForm.value)
         if (status === 'authenticated') {
-            //TODO message success
-            router.push({ name: 'DatosUsuario' })
+            router.push({ name: 'dashboard'})
             swal("Success", "Inicio de sesion exitoso", 'success')
         } else {
-            //TODO: message error
-            swal('Error', 'credenciales invalidas', 'error')
+            swal('Error', 'Credenciales invalidas', 'error')
         }
     } catch (error) {
         swal("Erros", "Ha ocurrido un error", 'error')
@@ -73,4 +71,3 @@ a {
     color:#0072bc;
 }
 </style>
-  

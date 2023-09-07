@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-6">
-            <router-link to="#"> 
+            <router-link :to="{name:'ver-solicitud', params: {idSolicitud: solicitud.id} }"> 
             <div class="card my-4" id="card">
                 <div class="card-body">
                     <div class="row">

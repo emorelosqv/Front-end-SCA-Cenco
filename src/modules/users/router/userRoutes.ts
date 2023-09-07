@@ -11,10 +11,10 @@ const userRoutes = [
         component: () => import('@/modules/users/views/UserData.vue')
     },
     {
-        path: "/validar-entregas",
-        name: "validar-entregas",
+        path: "/validar-autorizaciones",
+        name: "validar-autorizaciones",
         beforeEnter:[ isAdministradorGuard ],
-        component: () => import('@/modules/users/views/ValidarEntregas.vue')
+        component: () => import('@/modules/users/views/ValidarAutorizaciones.vue')
     },
     {
         path: "/ver-solicitud/:idSolicitud",
@@ -66,10 +66,10 @@ const userRoutes = [
         component: () => import('@/modules/users/views/Manuales.vue')
     },
     {
-        path: "/agendar-entrega",
-        name: "agendar-entrega",
+        path: "/agendar-autorizacion",
+        name: "agendar-autorizacion",
         beforeEnter:[ isProveedorGuard],
-        component: () => import('@/modules/users/views/AgendarEntrega.vue')
+        component: () => import('@/modules/users/views/AgendarAutorizacion.vue')
     },
     {
         path: "/ver-aforo",

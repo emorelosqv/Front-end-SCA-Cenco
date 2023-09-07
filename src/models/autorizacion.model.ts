@@ -1,13 +1,13 @@
 
 
-interface Entrega {
+interface Autorizacion {
     Nombres: string;
     Apellidos: string,
     Correo: string,
-    ArchivoArl: File,
-    ArchivoIdentificacion: File,
-    ArchivoOtro: File,
-    FechaEntrega: string,
+    DocumentoArl: File,
+    DocumentoIdentificacion: File,
+    DocumentoEps: File,
+    FechaAutorizacion: string,
     Identificacion: number,
     Departamento: string,
     Municipio: string,
@@ -15,19 +15,19 @@ interface Entrega {
     Descripcion: string;
 }
 
-export interface IStatusEntrega {
+export interface IStatusAutorizacion {
     status: number
 }
 
 
-export interface IAgendarEntrega {
+export interface IAgendarAutorizacion {
     Nombres: string;
     Apellidos: string,
     Correo: string,
-    ArchivoArl: File,
-    ArchivoIdentificacion: File,
-    ArchivoOtro: File,
-    FechaEntrega: string,
+    DocumentoArl: File,
+    DocumentoIdentificacion: File,
+    DocumentoEps: File,
+    FechaAutorizacion: string,
     Identificacion: number,
     Departamento: string,
     Municipio: string,

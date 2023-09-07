@@ -2,10 +2,10 @@
     <div class="container text-center mt-4">
         <div class="row">
             <div class="col">
-                <router-link to="/agendar-entrega">
+                <router-link to="/agendar-autorizacion">
                     <div class="card">
                         <div class="card-title">
-                            <h2>Agendar entrega</h2>
+                            <h2>Agendar Autorizacion</h2>
                             <font-awesome-icon :icon="['fas', 'calendar-days']" style="color: #f7941d;" beat size="2xl" />
                         </div>
                     </div>

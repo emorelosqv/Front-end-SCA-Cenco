@@ -2,20 +2,20 @@
     <div class="container text-center mt-4">
         <div class="row my-3">
             <div class="col">
-                <router-link to="/validar-entregas">
+                <router-link to="/validar-autorizaciones">
                     <div class="card">
                         <div class="card-title">
-                            <h2>Validar entregas</h2>
+                            <h2>Validar Autorizaciones</h2>
                             <font-awesome-icon :icon="['fas', 'file']" beat style="color: #f7941d;" size="2xl" />
                         </div>
                     </div>
                 </router-link>
             </div>
             <div class="col">
-                <router-link to="/agendar-entrega">
+                <router-link to="/agendar-autorizacion">
                     <div class="card">
                         <div class="card-title">
-                            <h2>Agendar entrega</h2>
+                            <h2>Agendar Autorizacion de Ingreso</h2>
                             <font-awesome-icon :icon="['fas', 'calendar-days']" style="color: #f7941d;" beat size="2xl" />
                         </div>
                     </div>

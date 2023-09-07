@@ -1,4 +1,3 @@
-
 import { getEnviroments } from '@/helpers/getEnviroments';
 import axios from 'axios'
 

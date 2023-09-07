@@ -15,9 +15,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { 
     faHouse, faBoxArchive, 
     faCalendarDays, faEye, 
-    faFile, faAddressCard,
+    faFile, faAddressCard, faFilePdf,
     faUserInjured, faBook,
-    faMagnifyingGlass
+    faMagnifyingGlass, 
  } from '@fortawesome/free-solid-svg-icons'
 
 /* Importacion de sweetalert */
@@ -34,6 +34,7 @@ library.add(faAddressCard)
 library.add(faUserInjured)
 library.add(faBook)
 library.add(faMagnifyingGlass)
+library.add(faFilePdf)
 /*  Styling de sweetalert2 para cambiar los colores de los botones 
 *   a la paleta de colores de censo
 */

@@ -12,8 +12,7 @@
                         <div class="col-md-6 text-white text-bold">
                             <p><strong>Identificacion del usuario: {{ solicitud.identificacion }}</strong></p>
                             <p>Correo: {{ solicitud.correo }}</p>
-                        <p>Descripcion: {{ solicitud.descripcion }}</p>
-                        
+                            <p>Descripcion: {{ solicitud.descripcion }}</p>                       
                         </div>
                     </div>
                 </div>

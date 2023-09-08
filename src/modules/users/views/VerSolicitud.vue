@@ -14,10 +14,13 @@
                 <div class="col-md-5 p-0 klo">
                     <ul>
                         <li>Fecha de la solicitud: {{ soli.fechaAutorizacion }}</li>
+                        <li>Hora de entrada: {{ soli.horaEntrada }}</li>
+                        <li>Hora de salida: {{ soli.horaSalida }}</li>
                         <li>Nombre del solicitante: {{ soli.nombres }} {{ soli.apellidos }}</li>
                         <li>Correo: {{ soli.correo }}</li>
                         <li>Estado de la solicitud: {{ soli.descripcionEstado }}</li>
                         <li>Tienda: {{ soli.tienda }}</li>
+                        <li>Area: {{ soli.area }}</li>
                     </ul>
                 </div>
                 <div class="col-md-7 ">
@@ -52,7 +55,8 @@ const swal = inject('$swal')
 const router = useRouter()
 
 const { useObtenerSolicitud, obtenerSolicitud,
-    useObtenerDocumentos, aprobarSolicitud, rechazarSolicitud } = useUser()
+    useObtenerDocumentos, aprobarSolicitud, 
+    rechazarSolicitud, enviarCorreo } = useUser()
 const { idSolicitud } = defineProps(['idSolicitud'])
 
 onBeforeMount(() => {
@@ -62,12 +66,29 @@ onBeforeMount(() => {
 const soli = useObtenerSolicitud
 const documentos = useObtenerDocumentos
 
+const correoAprobacion = {
+    para: "pruebascacenco@gmail.com",
+    asunto: "Aprobacion solicitud de ingreso",
+    contenido: "Su solicitud Nro. "+ idSolicitud+ " fue revisada y aprobada",
+
+
+}
+
+const correoRechazo = {
+    para: "pruebascacenco@gmail.com",
+    asunto: "Aprobacion solicitud de ingreso",
+    contenido: "Su solicitud Nro. "+ idSolicitud+ " fue revisada y fue rechazada",
+
+
+}
+
 const onAprobarSolicitud = async () => {
     try {
         const respuestaApi = await aprobarSolicitud(idSolicitud)
         if (respuestaApi.statusCode === 200) {
             router.push({ name: 'validar-autorizaciones' })
             swal("Success", respuestaApi.msg, 'success')
+            await enviarCorreo(correoAprobacion)         
         } else {
             swal('Error', respuestaApi.msg, 'error')
         }
@@ -83,6 +104,7 @@ const onRechazarSolicitud = async () => {
         if (respuestaApi.statusCode === 200) {
             router.push({ name: 'validar-autorizaciones' })
             swal("Success", respuestaApi.msg, 'success')
+            await enviarCorreo(correoRechazo)          
         } else {
             swal('Error', respuestaApi.msg, 'error')
         }

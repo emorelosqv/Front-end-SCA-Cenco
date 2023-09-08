@@ -7,6 +7,8 @@ export const useUserStore = defineStore('user', {
     return {
       status: 0,
       solicitudesPendientes: [],
+      solicitudesAprobadas: [],
+      solicitudesRechazadas: [],
       solicitud: {},
       documentos: []
     }
@@ -29,11 +31,9 @@ export const useUserStore = defineStore('user', {
         return this.status
       }
     },
-
     async obtenerSolicitudesPendientes(){
       try {
         await cencoApi.get("UserData/obtener-solicitudes-pendientes").then((result) => {
-          console.log(result.data.data)
           if (result.data.data != ""){
             const statusC = result.status
             this.solicitudesPendientes = JSON.parse(result.data.data)
@@ -43,19 +43,49 @@ export const useUserStore = defineStore('user', {
           }
         }).catch((error) => {
           console.log(error)
-        })
-        //.log(res)
-        // if (res!=null){
-        //   const statusC = res.status
-        //   this.solicitudesPendientes = JSON.parse(res.data.data)
-        //   return {statusC, res}
-        // }
-        
+        })    
       } catch (error) {
         console.log(error)
         return error
       }
-    } ,
+    },
+    async obtenerSolicitudesAprobadas(){
+      try {
+        await cencoApi.get("UserData/obtener-solicitudes-aprobadas").then((result) => {
+          if (result.data.data != ""){
+            const statusC = result.status
+            this.solicitudesAprobadas = JSON.parse(result.data.data)
+            return {statusC, result}
+          }else{
+            this.solicitudesAprobadas = []
+          }
+        }).catch((error) => {
+          console.log(error)
+        })    
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
+    async obtenerSolicitudesRechazadas(){
+      try {
+        await cencoApi.get("UserData/obtener-solicitudes-rechazadas").then((result) => {
+          if (result.data.data != ""){
+            console.log(result.data.data)
+            const statusC = result.status
+            this.solicitudesRechazadas = JSON.parse(result.data.data)
+            return {statusC, result}
+          }else{
+            this.solicitudesRechazadas = []
+          }
+        }).catch((error) => {
+          console.log(error)
+        })    
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
     async obtenerSolicitud(idSolicitud: any){
       try {
         
@@ -99,13 +129,26 @@ export const useUserStore = defineStore('user', {
         console.log( "Error: "+error)
         return error
       }
+    },
+    async enviarCorreo(correo:any){
+      try {
+        
+        const result = await cencoApi.post("UserData/enviar-correo/", correo)
+        return result
+      } catch (error) {
+        console.log( "Error: "+error)
+        return error
+      }
     }
-
   },
   getters:{
     getSolicitudesPendientes: (state) => state.solicitudesPendientes,
+    getSolicitudesAprobadas: (state) => state.solicitudesAprobadas,
+    getSolicitudesRechazadas: (state) => state.solicitudesRechazadas,
     getSolicitud: (state) => state.solicitud,
     getDocumentos: (state) => state.documentos,
-    getValorPendients: (state) => state.solicitudesPendientes.length
+    getValorPendientes: (state) => state.solicitudesPendientes.length,
+    getValorAprobadas: (state) => state.solicitudesAprobadas.length,
+    getValorRechazadas: (state) => state.solicitudesRechazadas.length
   }
 })

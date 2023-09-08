@@ -31,9 +31,22 @@
 
                     </div>
                     <div class="mb-3">
+                        <label for="inputFechaAgendarAutorizacion">Fecha de ingreso:</label>
                         <input type="date" class="form-control" id="inputFechaAgendarAutorizacion"
                             aria-describedby="inputFechaAgendarAutorizacion" required
                             v-model="agendarAutorizacionForm.FechaAutorizacion" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputHoraEntradaAgendarAutorizacion">Hora de entrada:</label>
+                        <input type="time" class="form-control" id="inputHoraEntradaAgendarAutorizacion"
+                            aria-describedby="inputHoraEntradaAgendarAutorizacion" required
+                            v-model="agendarAutorizacionForm.HoraEntradaAutorizacion" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputHoraSalidaAgendarAutorizacion">Hora de salida:</label>
+                        <input type="time" class="form-control" id="inputHoraSalidaAgendarAutorizacion"
+                            aria-describedby="inputHoraSalidAgendarAutorizacion" required
+                            v-model="agendarAutorizacionForm.HoraSalidaAutorizacion" />
                     </div>
                     <div class="mb-3">
                         <label for="inputDocumentoArlAgendarAutorizacion">Documento de Arl</label>
@@ -49,12 +62,13 @@
                             required @change="changeFileIdentificacion" />
                     </div>
                     <div class="mb-3">
-                        <label for="inputDocumentoEpsAgendarAutorizacion">Eps documento</label>
+                        <label for="inputDocumentoEpsAgendarAutorizacion">Documento Eps</label>
                         <input type="file" class="form-control" id="inputDocumentoEpsAgendarAutorizacion"
                             aria-describedby="inputDocumentoEpsAgendarAutorizacion" 
                             required @change="changeFileEps" />
                     </div>
                     <div class="mb-3">
+                        <label for="inputDepartamentoAgendarAutorizacion">Digite el departamento</label>
                         <input list="listaDepartamentos" class="form-control" id="inputDepartamentoAgendarAutorizacion"
                             aria-describedby="inputDepartamentoAgendarAutorizacion" required
                             v-model="agendarAutorizacionForm.Departamento" />
@@ -67,6 +81,7 @@
                         </datalist>
                     </div>
                     <div class="mb-3">
+                        <label for="inputMunicipioAgendarAutorizacion">Digite el municipio</label>
                         <input list="listaMunicipios" class="form-control" id="inputMunicipioAgendarAutorizacion"
                             aria-describedby="inputMunicipioAgendarAutorizacion" required
                             v-model="agendarAutorizacionForm.Municipio"/>
@@ -79,6 +94,7 @@
                         </datalist>
                     </div>
                     <div class="mb-3">
+                        <label for="inputTiendaAgendarAutorizacion">Digite la tienda</label>
                         <input list="listaTiendas" class="form-control" id="inputTiendaAgendarAutorizacion"
                             aria-describedby="inputTiendaAgendarAutorizacion" required 
                             v-model="agendarAutorizacionForm.Tienda"/>
@@ -88,6 +104,19 @@
                             <option value="Tienda 3"></option>
                             <option value="Tienda 4"></option>
                             <option value="Tienda 5"></option>
+                        </datalist>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputAreaAgendarAutorizacion">Seleccione el area solicitante</label>
+                        <input list="listaAreas" class="form-control" id="inputAreaAgendarAutorizacion"
+                            aria-describedby="inputAreaAgendarAutorizacion" required 
+                            v-model="agendarAutorizacionForm.Area"/>
+                        <datalist id="listaAreas">
+                            <option value="Area 1"></option>
+                            <option value="Area 2"></option>
+                            <option value="Area 3"></option>
+                            <option value="Area 4"></option>
+                            <option value="Area 5"></option>
                         </datalist>
                     </div>
                     <div class="mb-3">
@@ -111,18 +140,21 @@ const agendarAutorizacionForm = ref({
     Identificacion: '',
     Correo: '',
     FechaAutorizacion: '',
+    HoraEntradaAutorizacion: '',
+    HoraSalidaAutorizacion: '',
     DocumentoArl: null,
     DocumentoIdentificacion: null,
     DocumentoEps: null,
     Departamento: '',
     Municipio: '',
     Tienda: '',
+    Area: '',
     Descripcion: ''
 })
+
 const router = useRouter()
 const { agendarAutorizacion } = useUser()
 const swal = inject('$swal')
-
 
 function changeFileArl() {
     const inputDocumentoArl = document.getElementById('inputDocumentoArlAgendarAutorizacion');
@@ -131,7 +163,6 @@ function changeFileArl() {
     }
 }
 
-
 function changeFileIdentificacion() {
     const inputDocumentoId = document.getElementById('inputDocumentoIdentificacionAgendarAutorizacion');
     if (inputDocumentoId.files && inputDocumentoId.files[0]) {
@@ -139,15 +170,12 @@ function changeFileIdentificacion() {
     }
 }
 
-
-
 function changeFileEps() {
     const inputDocumento = document.getElementById('inputDocumentoEpsAgendarAutorizacion');
     if (inputDocumento.files && inputDocumento.files[0]) {
         agendarAutorizacionForm.value.DocumentoEps = inputDocumento.files[0];
     }
 }
-
 
 const agendarAutorizacionEvent = async () => {
     try {

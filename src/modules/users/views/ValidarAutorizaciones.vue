@@ -8,14 +8,15 @@
                         aria-controls="pendientes-tab-pane" aria-selected="true">Solicitudes Pendientes</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="aprobadas-tab" data-bs-toggle="tab"
+                    <button @click="refrescarSolicitudesAprobadas" class="nav-link" id="aprobadas-tab" data-bs-toggle="tab"
                         data-bs-target="#aprobadas-tab-pane" type="button" role="tab" aria-controls="aprobadas-tab-pane"
                         aria-selected="false">Solicitudes
                         Aprobadas</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="rechazadas-tab" data-bs-toggle="tab" data-bs-target="#rechazadas-tab-pane"
-                        type="button" role="tab" aria-controls="rechazadas-tab-pane" aria-selected="false">Solicitudes
+                    <button @click="refrescarSolicitudesRechazadas" class="nav-link" id="rechazadas-tab"
+                        data-bs-toggle="tab" data-bs-target="#rechazadas-tab-pane" type="button" role="tab"
+                        aria-controls="rechazadas-tab-pane" aria-selected="false">Solicitudes
                         Rechazadas</button>
                 </li>
             </ul>
@@ -74,8 +75,8 @@ import useUser from '../composables/useUser'
 import Solicitudes from '../../../components/users/Solicitudes.vue'
 const router = useRouter()
 const { obtenerSolicitudesPendientes, useObtenerSolicitudesPendientes,
-    useObtenerValorPendientes, obtenerSolicitudesAprobadas, 
-    obtenerSolicitudesRechazadas,useObtenerSolicitudesAprobadas, 
+    useObtenerValorPendientes, obtenerSolicitudesAprobadas,
+    obtenerSolicitudesRechazadas, useObtenerSolicitudesAprobadas,
     useObtenerSolicitudesRechazadas, useObtenerValorAprobadas,
     useObtenerValorRechazadas } = useUser()
 
@@ -103,6 +104,23 @@ const refrescarSolicitudesPendientes = async () => {
     try {
         obtenerSolicitudesPendientes()
         solicitudesPendientes = useObtenerSolicitudesPendientes
+    } catch (error) {
+        console.log(error)
+    }
+}
+const refrescarSolicitudesAprobadas = async () => {
+    try {
+        obtenerSolicitudesAprobadas()
+        solicitudesAprobadas = useObtenerSolicitudesAprobadas
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const refrescarSolicitudesRechazadas = async () => {
+    try {
+        obtenerSolicitudesRechazadas()
+        solicitudesRechazadas = useObtenerSolicitudesRechazadas
     } catch (error) {
         console.log(error)
     }

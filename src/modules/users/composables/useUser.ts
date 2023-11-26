@@ -1,12 +1,12 @@
 import type { IAgendarAutorizacion } from "@/models/autorizacion.model";
+import type { Incidente } from "@/models/incidente.model";
+import type { IConducta } from "@/models/conducta.model";
 import { useUserStore } from "@/store/userStore";
 import { computed } from "vue";
-import { useRouter } from "vue-router";
 
 const useUser = () => {
 
     const userStore = useUserStore();
-    const router = useRouter();
 
     const agendarAutorizacion = async (autorizacion: IAgendarAutorizacion): Promise<any> => {
         const status = await userStore.agendarAutorizacion(autorizacion);
@@ -48,6 +48,41 @@ const useUser = () => {
         return result 
     }
 
+    const registrarIncidente = async (incidente: Incidente) => {
+        const result = await userStore.registrarIncidente(incidente)
+        return result
+    }
+
+    const obtenerIncidentes = async () => {
+        const result = await userStore.obtenerIncidentes()
+        return result
+    }
+
+    const registrarConducta = async (conducta: IConducta) => {
+        const result = await userStore.registrarConducta(conducta)
+        return result
+    }
+
+    const obtenerConductas = async () => {
+        const result = await userStore.obtenerConductas()
+        return result
+    }
+
+    const filtrarRegistrosIncidentes = async (dato: string) => {
+        const result = await userStore.filtrarRegistrosIncidentes(dato)
+        return result
+    }
+
+    const filtrarRegistrosConductas = async (dato: string) => {
+        const result = await userStore.filtrarRegistrosConductas(dato)
+        return result
+    }
+    
+    const obtenerIncidente = async (idIncidente: number) => {
+        const result = await userStore.obtenerIncidente(idIncidente)
+        return result
+    }
+
     return {
         //methods
         agendarAutorizacion,
@@ -58,6 +93,13 @@ const useUser = () => {
         aprobarSolicitud,
         rechazarSolicitud,
         enviarCorreo,
+        registrarIncidente,
+        obtenerIncidentes,
+        registrarConducta,
+        obtenerConductas,
+        filtrarRegistrosIncidentes,
+        filtrarRegistrosConductas,
+        obtenerIncidente,
 
         //getters
         useObtenerSolicitudesPendientes: computed(() => userStore.getSolicitudesPendientes),
@@ -67,7 +109,12 @@ const useUser = () => {
         useObtenerDocumentos: computed(() => userStore.getDocumentos),
         useObtenerValorPendientes: computed(() => userStore.getValorPendientes),
         useObtenerValorAprobadas: computed(() => userStore.getValorAprobadas),
-        useObtenerValorRechazadas: computed(() => userStore.getValorRechazadas)
+        useObtenerValorRechazadas: computed(() => userStore.getValorRechazadas),
+        useObtenerIncidentes: computed(() => userStore.getIncidentes),
+        useObtenerConductas: computed(() => userStore.getConductas),
+        useObtenerIncidentesFiltrados: computed(() => userStore.getIncidentesFiltrados),
+        useObtenerConductasFiltradas: computed(() => userStore.getConductasFiltradas),
+        useObtenerIncidente: computed(() => userStore.getIncidente)
 
     };
 }

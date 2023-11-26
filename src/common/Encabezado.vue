@@ -18,7 +18,7 @@ function validarToken() {
 onMounted(() => {
     validarToken()
 })
-onUpdated(() =>  {
+onUpdated(() => {
     validarToken()
 })
 
@@ -76,9 +76,7 @@ const datos = mostrarFecha() + " - " + mostrarHora()
     </div>
     <div class="container">
         <div class="row" id="iconoFecha">
-            <router-link to='/'>
-                <p><font-awesome-icon :icon="['fas', 'house']" style="color: #0072bc;" /> {{ datos }}</p>
-            </router-link>
+            <p>{{ datos }}</p>
         </div>
     </div>
 </template>
@@ -92,7 +90,7 @@ const datos = mostrarFecha() + " - " + mostrarHora()
 }
 
 a,
-button {
+p {
     text-decoration: none;
     color: #0072bc;
 }

@@ -1,52 +1,61 @@
 <template>
     <div class="container my-4 mx-auto d-flex flex-column bg-light">
         <div class="header">
-            <div class="row r1">
-                <div class="col-md-9 abc">
+            <div class="row p-4">
+                <div class="col-md-7">
                     <h1>Solicitud Nro. {{ soli.id }}</h1>
+                    <label id="descripcionLabel"><strong>Descripción de la solicitud</strong></label>
+                    <p class="text-right">{{ soli.descripcion }}</p>
                 </div>
-                <label id="descripcionLabel"><strong>Descripción de la solicitud</strong></label>
-                <p class="text-right">{{ soli.descripcion }}</p>
-            </div>
-        </div>
-        <div class="container-body mt-4">
-            <div class="row">
-                <div class="col-md-6 p-0">
-                    <ul>
-                        <li>¿Llevará herramientas o implementos de trabajo?: <strong
-                                v-if="soli.tieneHerramientas == 1">Sí</strong> <strong v-else>No</strong></li>
-                        <li>¿Tendrá que sacar activos de la tienda?: <strong v-if="soli.activosSalida == 1">Sí</strong>
-                            <strong v-else>No</strong>
-                        </li>
-                        <li>¿La solicitud será solo por un día?: <strong v-if="soli.unSoloDia == 1">Sí</strong> <strong
-                                v-else>No</strong></li>
-                        <li v-if="soli.unSoloDia == 1">Fecha de la solicitud: {{ soli.fechaAutorizacion }}</li>
-                        <li v-else>Rango de fecha de la solicitud: <strong>{{ soli.rangoFechaInicialAutorizacion }} / {{
-                            soli.rangoFechaFinalAutorizacion }}</strong></li>
-                        <li>Hora de entrada: {{ soli.horaEntrada }}</li>
-                        <li>Hora de salida: {{ soli.horaSalida }}</li>
-                        <li>Nombre del solicitante: {{ soli.nombres }} {{ soli.apellidos }}</li>
-                        <li>Correo: {{ soli.correo }}</li>
-                        <li>Estado de la solicitud: {{ soli.descripcionEstado }}</li>
-                        <li>Tienda: {{ soli.tienda }}</li>
-                        <li>Area solicitante: {{ soli.area }}</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <Documento v-for="documento in documentos" :key="documento.id" :documento="documento" />
+                <div class="col-md-5">
+                    <div class="row" v-if="soli.idEstadoSolicitud == 1">
+                        <div class="col-md-6">
+                            <button class="btn btn-success p-2 m-1" @click="onAprobarSolicitud">
+                                <font-awesome-icon :icon="['fas', 'check']" /> Aprobar solicitud
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-danger p-2 m-1" @click="onRechazarSolicitud">
+                                <font-awesome-icon :icon="['fas', 'ban']" /> Rechazar solicitud
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row text-center">
-            <div class="col-md-12 my-4">
-                <button class="btn btn-success p-2 m-1" @click="onAprobarSolicitud">
-                    Aprobar solicitud
-                </button>
-                <button class="btn btn-danger p-2 m-1" @click="onRechazarSolicitud">
-                    Rechazar solicitud
-                </button>
+        <div class="container-body mt-4">
+            <div class="row">
+                <div class="col-md-6 p-2">
+                    <ul class="list-group">
+                        <li class="list-group-item">¿Llevará herramientas o implementos de trabajo?: <strong
+                                v-if="soli.tieneHerramientas == 1">Sí</strong> <strong v-else>No</strong></li>
+                        <li class="list-group-item">¿Tendrá que sacar activos de la tienda?: <strong
+                                v-if="soli.activosSalida == 1">Sí</strong>
+                            <strong v-else>No</strong>
+                        </li>
+                        <li class="list-group-item">¿La solicitud será solo por un día?: <strong
+                                v-if="soli.unSoloDia == 1">Sí</strong> <strong v-else>No</strong></li>
+                        <li class="list-group-item" v-if="soli.unSoloDia == 1">Fecha de la solicitud: {{
+                            soli.fechaAutorizacion }}</li>
+                        <li class="list-group-item" v-else>Rango de fecha de la solicitud: <strong>{{
+                            soli.rangoFechaInicialAutorizacion }} / {{
+        soli.rangoFechaFinalAutorizacion }}</strong></li>
+                        <li class="list-group-item">Hora de entrada: {{ soli.horaEntrada }}</li>
+                        <li class="list-group-item">Hora de salida: {{ soli.horaSalida }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 p-2">
+                    <ul class="list-group">
+                        <li class="list-group-item">Nombre del solicitante: {{ soli.nombres }} {{ soli.apellidos }}</li>
+                        <li class="list-group-item">Correo: {{ soli.correo }}</li>
+                        <li class="list-group-item">Estado de la solicitud: {{ soli.descripcionEstado }}</li>
+                        <li class="list-group-item">Tienda: {{ soli.tienda }}</li>
+                        <li class="list-group-item">Área solicitante: {{ soli.area }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row p-4">
+                <Documento v-for="documento in documentos" :key="documento.id" :documento="documento" />
             </div>
         </div>
     </div>
@@ -77,16 +86,12 @@ const correoAprobacion = {
     para: "pruebascacenco@gmail.com",
     asunto: "Aprobacion solicitud de ingreso",
     contenido: "Su solicitud Nro. " + idSolicitud + " fue revisada y aprobada",
-
-
 }
 
 const correoRechazo = {
     para: "pruebascacenco@gmail.com",
     asunto: "Aprobacion solicitud de ingreso",
-    contenido: "Su solicitud Nro. " + idSolicitud + " fue revisada y fue rechazada",
-
-
+    contenido: "Su solicitud Nro. " + idSolicitud + " fue revisada y rechazada",
 }
 
 const onAprobarSolicitud = async () => {

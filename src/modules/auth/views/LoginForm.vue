@@ -1,51 +1,74 @@
 <template>
-    <div class="container text-center mt-2">
-        <div class="col-md-4 offset-md-4">
-            <div class="card">
-                <div class="card-title">
-                    <h1>Iniciar Sesión</h1>
-                </div>
-                <form class="card-body" @submit.prevent="onSubmit">
-                    <div class="mb-3">
+    <Navegacion></Navegacion>
+    <div class="container">
+        <section class="vh-100">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col col-xl-10">
+                        <div class="card" style="border-radius: 1rem;">
+                            <div class="row g-0">
+                                <div class="col-md-6 col-lg-5 d-none d-md-block p-5">
+                                    <img src="@Assets/imagenes/trabajadores.png" alt="login form"
+                                        class="imagenLogin img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                                </div>
+                                <div class="contenedorLogin col-md-6 col-lg-7 d-flex align-items-center">
 
-                        <input type="text" class="form-control" id="inputIdentificacionLogin" 
-                            aria-describedby="inputIdentificacionLogin"
-                            placeholder="Identificacion" 
-                            v-model="userForm.Identificacion" 
-                            required>
+                                    <div class="card-body p-4 p-lg-5 text-black">
+                                        <form @submit.prevent="onSubmit">
+                                            <h3 class="fw-normal mb-3 pb-3 text-center" style="color: white;">Iniciar Sesión
+                                            </h3>
+                                            <div class="form-outline mb-4" style="color: white;">
+                                                <label class="form-label" for="email">Correo electrónico</label>
+                                                <input type="email" id="email" v-model="loginForm.Correo" required
+                                                    placeholder="e.j. example@example.com"
+                                                    class="form-control form-control-lg" />
+                                            </div>
+                                            <div class="form-outline mb-4" style="color: white;">
+                                                <label class="form-label" for="form2Example27">Contraseña</label>
+                                                <input type="password" id="password" class="form-control form-control-lg"
+                                                    placeholder="Contraseña" v-model="loginForm.Password" required />
+                                            </div>
+                                            <div class="pt-1 mb-4">
+                                                <button class="botonLogin btn btn-lg btn-block" type="submit">Iniciar
+                                                    sesión</button>
+                                            </div>
+                                            <!-- <a class="small text-muted" href="#!">Forgot password?</a> -->
+                                            <p class="registerLink mb-5 pb-lg-2">¿No tienes una cuenta?
+                                                <router-link to="/register" class="registerLinkA">Registrate
+                                                    aquí.</router-link>
+                                            </p>
+                                            <a href="#!" class="small text-muted">Terms of use.</a>
+                                            <a href="#!" class="small text-muted">Privacy policy</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <input type="password" class="form-control" id="inputPasswordLogin"
-                            aria-describedby="inputPasswordLogin" 
-                            placeholder="Contraseña"
-                            v-model="userForm.Password" 
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <router-link to="/register">¿No tienes una cuenta? Registrate <strong>aquí</strong></router-link>
-                    </div>
-                    <button type="submit" class="btn text-light" id="boton">Iniciar Sesión</button>
-                </form>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
+    <!-- <Footer></Footer> -->
 </template>
 
 <script setup>
 import { inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useAuth from '../composables/useAuth'
+import Navegacion from '@Components/Nav.vue'
+import Footer from '@Components/Footer.vue'
 
-const userForm = ref({ Identificacion: '', Password: '' })
+const loginForm = ref({ Correo: '', Password: '' })
 const router = useRouter()
 const { loginUser, authStatus } = useAuth()
 const swal = inject('$swal')
 
 const onSubmit = async () => {
     try {
-        const status = await loginUser(userForm.value)
-        if (status === 'authenticated') {
-            router.push({ name: 'dashboard'})
+        const status = await loginUser(loginForm.value)
+        if (status === 200) {
+            router.push({ name: 'dashboard' })
             swal("Success", "Inicio de sesion exitoso", 'success')
         } else {
             swal('Error', 'Credenciales invalidas', 'error')
@@ -57,17 +80,28 @@ const onSubmit = async () => {
 </script>
 
 <style scoped>
-h1 {
+.registerLink,
+.registerLinkA {
+    color: white;
+}
+
+.registerLinkA:hover {
     color: #0072bc;
 }
 
-#boton {
+.botonLogin {
     background: #f7941d;
+    color: white;
 
 }
 
 a {
     text-decoration: none;
-    color:#0072bc;
+    color: #0072bc;
+}
+
+.contenedorLogin {
+
+    background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
 }
 </style>

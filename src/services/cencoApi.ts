@@ -5,7 +5,7 @@ const { CENCO_API } = getEnviroments();
 
 
 const cencoApi = axios.create({
-    baseURL: "http://localhost:5182/api/",
+    baseURL: "https://localhost:7223/api/",
     
 });
 cencoApi.interceptors.request.use( (config)=>{

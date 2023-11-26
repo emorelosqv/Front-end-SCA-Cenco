@@ -21,6 +21,7 @@ export default defineConfig({
       '@Guards': fileURLToPath(new URL('./src/guards/', import.meta.url)),
       '@Router': fileURLToPath(new URL('./src/router/', import.meta.url)),
       '@Components': fileURLToPath(new URL('./src/components/', import.meta.url)),
+      '@Layouts': fileURLToPath(new URL('./src/layouts/', import.meta.url)),
     }
   }
 })

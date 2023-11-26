@@ -18,15 +18,18 @@ export interface IAuth {
 }
 
 export interface ICreateUser {
+    TipoIdentificacion: string;
     Identifacion: number;
-    NombreCompleto: string;
     Correo: string;
+    NombreCompleto: string;
     Password: string;
-    ValidarPassword: string;
+    NombreEmpresa: string;
+    NitEmpresa: string;
+    CargoTrabajador: string;
 }
 
 export interface ILoginUser {
-    Identificacion: number;
+    Correo: string;
     Password: string;
 }
 

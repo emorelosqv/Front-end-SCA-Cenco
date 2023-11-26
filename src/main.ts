@@ -17,7 +17,8 @@ import {
     faCalendarDays, faEye, 
     faFile, faAddressCard, faFilePdf,
     faUserInjured, faBook,
-    faMagnifyingGlass, 
+    faMagnifyingGlass, faCheck,
+    faBan, faEraser, faUser
  } from '@fortawesome/free-solid-svg-icons'
 
 /* Importacion de sweetalert */
@@ -35,6 +36,11 @@ library.add(faUserInjured)
 library.add(faBook)
 library.add(faMagnifyingGlass)
 library.add(faFilePdf)
+library.add(faBan)
+library.add(faCheck)
+library.add(faEraser)
+library.add(faUser)
+
 /*  Styling de sweetalert2 para cambiar los colores de los botones 
 *   a la paleta de colores de censo
 */

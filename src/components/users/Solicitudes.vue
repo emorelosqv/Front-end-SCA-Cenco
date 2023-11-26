@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-6">
-            <router-link :to="{name:'ver-solicitud', params: {idSolicitud: solicitud.id} }"> 
+        <router-link :to="{ name: 'ver-solicitud', params: { idSolicitud: solicitud.id } }">
             <div class="card my-4" id="card">
                 <div class="card-body">
                     <div class="row">
@@ -12,7 +12,7 @@
                         <div class="col-md-6 text-white text-bold">
                             <p><strong>Identificacion del usuario: {{ solicitud.identificacion }}</strong></p>
                             <p>Correo: {{ solicitud.correo }}</p>
-                            <p>Descripcion: {{ solicitud.descripcion }}</p>                       
+                            <p>Descripcion: {{ solicitud.descripcion }}</p>
                         </div>
                     </div>
                 </div>

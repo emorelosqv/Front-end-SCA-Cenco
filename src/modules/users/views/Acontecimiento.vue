@@ -1,43 +1,41 @@
 <template>
-    <div class="container text-center mt-4">
-        <div class="row my-3">
-            <div class="col">
-                <router-link to="/registrar-incidente">
-                    <div class="card">
-                        <div class="card-title">
-                            <h2>Registrar Incidente</h2>
-                            <font-awesome-icon :icon="['fas', 'box-archive']" 
-                            style="color: #f7941d;" 
-                            beat
-                            size="2xl" />
+    <DashboardLayout>
+        <div class="container text-center mt-4">
+            <div class="row my-3">
+                <div class="col">
+                    <router-link to="/registrar-incidente">
+                        <div class="card">
+                            <div class="card-title">
+                                <h2>Registrar Incidente</h2>
+                                <font-awesome-icon :icon="['fas', 'box-archive']" style="color: #f7941d;" beat size="2xl" />
 
+                            </div>
                         </div>
-                    </div>
-                </router-link>
-            </div>
-            <div class="col">
-                <router-link  to="/registrar-conducta">
-                    <div class="card">
-                        <div class="card-title">
-                            <h2>Registrar Conducta</h2>
-                            <font-awesome-icon :icon="['fas', 'box-archive']" 
-                            style="color: #f7941d;" 
-                            beat
-                            size="2xl" />
+                    </router-link>
+                </div>
+                <div class="col">
+                    <router-link to="/registrar-conducta">
+                        <div class="card">
+                            <div class="card-title">
+                                <h2>Registrar Conducta</h2>
+                                <font-awesome-icon :icon="['fas', 'box-archive']" style="color: #f7941d;" beat size="2xl" />
+                            </div>
                         </div>
-                    </div>
-                </router-link>
+                    </router-link>
+                </div>
             </div>
         </div>
-    </div>
+    </DashboardLayout>
 </template>
 
-<script lang="ts" setup>
+<script setup>
+import DashboardLayout from '@Layouts/DashboardLayout.vue'
 
 </script>
 
 <style scoped>
-h1, h2 {
+h1,
+h2 {
     color: #0072bc;
 }
 
@@ -46,8 +44,8 @@ h1, h2 {
 
 }
 
-a{
-   text-decoration: none; 
+a {
+    text-decoration: none;
 }
 </style>
   

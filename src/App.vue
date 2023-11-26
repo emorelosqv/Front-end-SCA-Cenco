@@ -1,10 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Encabezado from './common/Encabezado.vue';
+import BreadCrum from './common/BreadCrum.vue';
 </script>
 
 <template>
-  <Encabezado /> 
+  <!-- <Encabezado />
+  <BreadCrum /> -->
   <RouterView />
 </template>
 

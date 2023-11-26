@@ -28,9 +28,32 @@
                             <div class="row" v-if="sinSolicitudesPendientes">
                                 <h2>No hay solicitudes pendientes por validar</h2>
                             </div>
-                            <div class="row" v-else>
-                                <Solicitudes v-for="solicitud in solicitudesPendientes" :key="solicitud"
-                                    :solicitud="solicitud" />
+                            <div class="table-responsive" v-else>
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Nro. solicitud</th>
+                                            <th scope="col">Identificación del solicitante</th>
+                                            <th scope="col">Nombre completo del solicitante</th>
+                                            <th scope="col">Correo electrónico</th>
+                                            <th scope="col">Visualizar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="solicitud in solicitudesPendientes" :key="solicitud.id">
+                                            <th scope="row">{{ solicitud.id }}</th>
+                                            <td>{{ solicitud.identificacion }}</td>
+                                            <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                            <td>{{ solicitud.correo }}</td>
+                                            <td>
+                                                <router-link
+                                                    :to="{ name: 'ver-solicitud', params: { idSolicitud: solicitud.id } }">
+                                                    <font-awesome-icon :icon="['fas', 'eye']" />
+                                                </router-link>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -43,8 +66,31 @@
                                 <h2>No hay solicitudes aprobadas por validar</h2>
                             </div>
                             <div class="row" v-else>
-                                <Solicitudes v-for="solicitud in solicitudesAprobadas" :key="solicitud"
-                                    :solicitud="solicitud" />
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Nro.</th>
+                                            <th scope="col">Identificación</th>
+                                            <th scope="col">Nombre completo del solicitante</th>
+                                            <th scope="col">Correo electrónico</th>
+                                            <th scope="col">Visualizar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="solicitud in solicitudesAprobadas" :key="solicitud.id">
+                                            <th scope="row">{{ solicitud.id }}</th>
+                                            <td>{{ solicitud.identificacion }}</td>
+                                            <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                            <td>{{ solicitud.correo }}</td>
+                                            <td>
+                                                <router-link
+                                                    :to="{ name: 'ver-solicitud', params: { idSolicitud: solicitud.id } }">
+                                                    <font-awesome-icon :icon="['fas', 'eye']" />
+                                                </router-link>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -57,8 +103,31 @@
                                 <h2>No hay solicitudes rechazadas por validar</h2>
                             </div>
                             <div class="row" v-else>
-                                <Solicitudes v-for="solicitud in solicitudesRechazadas" :key="solicitud"
-                                    :solicitud="solicitud" />
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Nro.</th>
+                                            <th scope="col">Identificación</th>
+                                            <th scope="col">Nombre completo del solicitante</th>
+                                            <th scope="col">Correo electrónico</th>
+                                            <th scope="col">Visualizar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="solicitud in solicitudesRechazadas" :key="solicitud.id">
+                                            <th scope="row">{{ solicitud.id }}</th>
+                                            <td>{{ solicitud.identificacion }}</td>
+                                            <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                            <td>{{ solicitud.correo }}</td>
+                                            <td>
+                                                <router-link
+                                                    :to="{ name: 'ver-solicitud', params: { idSolicitud: solicitud.id } }">
+                                                    <font-awesome-icon :icon="['fas', 'eye']" />
+                                                </router-link>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -72,7 +141,7 @@
 import { inject, ref, onUpdated, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import useUser from '../composables/useUser'
-import Solicitudes from '../../../components/users/Solicitudes.vue'
+//import Solicitudes from '../../../components/users/Solicitudes.vue'
 const router = useRouter()
 const { obtenerSolicitudesPendientes, useObtenerSolicitudesPendientes,
     useObtenerValorPendientes, obtenerSolicitudesAprobadas,

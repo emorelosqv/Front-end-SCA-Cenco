@@ -3,10 +3,8 @@ import type { IAuth, ICreateUser, ILoginUser, StatusAuth } from '@/models/auth.m
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
-  // arrow function recommended for full type inference
   state: (): IAuth => {
     return {
-      // all these properties will have their type inferred automatically
       status: "not-authenticated",
       user: null,
       token: null,
@@ -16,7 +14,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async createUser(userCreate: ICreateUser) {
       try {
-        const { status, data } = await cencoApi.post("Auth/registrar-usuario", userCreate);
+        const { status, data } = await cencoApi.post("auth/registrar-usuario-normal", userCreate);
         this.user = data.usuario;
         return { status };
       } catch (error) {
@@ -24,25 +22,21 @@ export const useAuthStore = defineStore('auth', {
         return { status: 0 };
       }
     },
-    async loginUser(userLogin: ILoginUser): Promise<StatusAuth> {
+    async loginUser(userLogin: ILoginUser){
       try {
-        this.status = "authenticating";
-        
-        const { status, data } = await cencoApi.post("Auth/validar", userLogin);
-        
-        if (status === 200) {
-          this.setToken(data.data.sessionToken);
-          this.user = data.data.usuario;
-          localStorage.setItem("idUsuario", data.data.usuario.identificacion)
-          localStorage.setItem("rol", data.data.usuario.idRol)
-          localStorage.setItem("nombreCompleto", data.data.usuario.nombres + ' ' + data.data.usuario.apellidos)
-          this.status = "authenticated";
+        const res = await cencoApi.post("auth/login", userLogin);
+        if (res.status === 200) {
+          this.setToken(res.data.data.sessionToken);
+          const arregloUsuario = JSON.parse(res.data.data.usuario)
+          const usuario = arregloUsuario[0]
+          console.log(usuario)
+          localStorage.setItem("identifiacionUsuario", usuario.identificacion)
+          localStorage.setItem("rol", usuario.idRol)
+          localStorage.setItem("nombreCompleto", usuario.nombreCompleto)
         }
-        return this.status
+        return res.status
       } catch (error) {
-        
-        this.status = "not-authenticated"
-        return this.status
+        return 400
       }
     },
     async checkAuthentication() {
@@ -52,7 +46,6 @@ export const useAuthStore = defineStore('auth', {
         return { ok: false, message: 'No hay token' }
       }
       try {
-        //TODO: REFRESH TOKEN
         const { status, data } = await cencoApi.get("/user/token");
       } catch (error) {
         console.log(error);

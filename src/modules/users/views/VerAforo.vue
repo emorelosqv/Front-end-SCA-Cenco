@@ -1,6 +1,5 @@
 <template>
     <DashboardLayout>
-
         <div class="container">
             <h1>Aforo</h1>
         </div>

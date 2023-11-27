@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import DashboardLayout from '@Layout/DashboardLayout.vue'
+import DashboardLayout from '@Layouts/DashboardLayout.vue'
 </script>
 
 <style scoped>

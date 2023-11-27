@@ -2,17 +2,33 @@
     <div class='container dashboard'>
         <div class="dashboard-nav">
             <header>
-                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-                <a href="#" class="brand-logo"><i class="fas fa-anchor"></i><span>BRAND</span></a>
+
+                <a class="navbar-brand" href="#"> <img src="@Assets/logo-cenco.svg" alt="logo" class="imagenLogin img-fluid"
+                        style="border-radius: 1rem 0 0 1rem;" /></a>
+
             </header>
             <nav class="dashboard-nav-list">
+                <h3 class="username"><span>{{ nombreUsuario }}</span></h3>
+
                 <a href="#" class="dashboard-nav-item">
-                    <i class="fas fa-home"></i>Inicio
+                    <font-awesome-icon :icon="['fas', 'house']" size="xl" /> Inicio
                 </a>
+                <div v-if="administrador" class='dashboard-nav-dropdown'>
+                    <a href="javascript:void(0);"
+                        class="dashboard-nav-item dashboard-nav-dropdown-toggle"><font-awesome-icon
+                            :icon="['fas', 'clipboard-check']" size="xl" />
+                        Gestionar Autorizaciones
+                    </a>
+                    <div class='dashboard-nav-dropdown-menu'>
+                        <router-link to="/validar-autorizaciones" class="dashboard-nav-dropdown-item">Validar
+                            autorizaciones</router-link>
+                    </div>
+                </div>
                 <div v-if="administrador || proveedor" class='dashboard-nav-dropdown'>
-                    <a href="javascript:void(0);" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
-                            class="fas fa-photo-video"></i>
-                        Autorizaciones
+                    <a href="javascript:void(0);"
+                        class="dashboard-nav-item dashboard-nav-dropdown-toggle"><font-awesome-icon
+                            :icon="['fas', 'calendar-days']" size="xl" />
+                        Autorizaciones de Ingreso
                     </a>
                     <div class='dashboard-nav-dropdown-menu'>
                         <router-link to="/agendar-autorizacion" class="dashboard-nav-dropdown-item">Nueva Aurizacion de
@@ -21,8 +37,9 @@
                     </div>
                 </div>
                 <div v-if="administrador || proveedor" class='dashboard-nav-dropdown'>
-                    <a href="javascript:void(0);" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
-                            class="fas fa-photo-video"></i>
+                    <a href="javascript:void(0);"
+                        class="dashboard-nav-item dashboard-nav-dropdown-toggle"><font-awesome-icon :icon="['fas', 'book']"
+                            size="xl" />
                         Manuales
                     </a>
                     <div class='dashboard-nav-dropdown-menu'>
@@ -33,8 +50,9 @@
                     </div>
                 </div>
                 <div v-if="administrador || auditor" class='dashboard-nav-dropdown'>
-                    <a href="javascript:void(0);" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
-                            class="fas fa-photo-video"></i>
+                    <a href="javascript:void(0);"
+                        class="dashboard-nav-item dashboard-nav-dropdown-toggle"><font-awesome-icon
+                            :icon="['fas', 'chart-pie']" size="xl" />
                         Indicadores
                     </a>
                     <div class='dashboard-nav-dropdown-menu'>
@@ -44,35 +62,45 @@
                 </div>
                 <div v-if="administrador || auditor" class='dashboard-nav-dropdown'>
                     <a href="javascript:void(0);" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-                        <i class="fas fa-users"></i> Acontecimientos
+                        <font-awesome-icon :icon="['fas', 'person-falling']" size="xl" /> Acontecimientos
                     </a>
                     <div class='dashboard-nav-dropdown-menu'>
-                        <a href="#" class="dashboard-nav-dropdown-item">Registrar Incidente</a>
-                        <a href="#" class="dashboard-nav-dropdown-item">Registrar Antecedente</a>
-                        <a href="#" class="dashboard-nav-dropdown-item">Reporte de Incidentes</a>
-                        <a href="#" class="dashboard-nav-dropdown-item">Reporte de Antecendentes</a>
+                        <router-link to="/registrar-incidente" class="dashboard-nav-dropdown-item">Registrar
+                            Incidente</router-link>
+                        <router-link to="/registrar-conducta" class="dashboard-nav-dropdown-item">Registrar
+                            Antecedente</router-link>
+                        <router-link to="/mostrar-incidentes" class="dashboard-nav-dropdown-item">Ver
+                            Incidentes</router-link>
+                        <router-link to="/mostrar-conductas" class="dashboard-nav-dropdown-item">Ver
+                            Antecendentes</router-link>
                     </div>
                 </div>
                 <div v-if="administrador" class='dashboard-nav-dropdown'>
                     <a href="javascript:void(0);" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-                        <i class="fas fa-users"></i> Gestión de usuarios
+                        <font-awesome-icon :icon="['fas', 'users']" size="xl" />Gestión de usuarios
                     </a>
                     <div class='dashboard-nav-dropdown-menu'>
                         <a href="#" class="dashboard-nav-dropdown-item">Crear usuario</a>
                         <a href="#" class="dashboard-nav-dropdown-item">Editar usuario</a>
                     </div>
                 </div>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-user"></i> Perfil </a>
-                <div class="nav-item-divider">
+                <router-link to="#" class="dashboard-nav-item"><font-awesome-icon :icon="['fas', 'user']" size="xl" />Perfil
+                </router-link>
+                <div class="text-center">
+                    <button class="dashboard-nav-item btn" @click="logoutAndClearCache" type="button">
+                        <font-awesome-icon :icon="['fas', 'right-from-bracket']" size="xl" /> Cerrar sesión
+                    </button>
                 </div>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
             </nav>
         </div>
     </div>
 </template>
 
 <script setup>
+import useAuth from '@Modules/auth/composables/useAuth'
 const mobileScreen = window.matchMedia("(max-width: 990px )");
+const { logout } = useAuth()
+const nombreUsuario = localStorage.getItem('nombreCompleto')
 $(document).ready(function () {
     $(".dashboard-nav-dropdown-toggle").click(function () {
         $(this).closest(".dashboard-nav-dropdown")
@@ -91,7 +119,6 @@ $(document).ready(function () {
         }
     });
 });
-
 const rol = Number(localStorage.getItem("rol"))
 let administrador = false
 let auditor = false
@@ -110,15 +137,13 @@ switch (rol) {
         console.log("Error! No hay un rol definido")
         break;
 }
+
+const logoutAndClearCache = () => {
+    logout()
+}
 </script>
 
 <style scoped>
-:root {
-    --font-family-sans-serif: "Open Sans", -apple-system, BlinkMacSystemFont,
-        "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
 *,
 *::before,
 *::after {
@@ -126,44 +151,10 @@ switch (rol) {
     box-sizing: border-box;
 }
 
-html {
-    font-family: sans-serif;
-    line-height: 1.15;
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
 nav {
     display: block;
 }
 
-body {
-    margin: 0;
-    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #515151;
-    text-align: left;
-    background-color: #e9edf4;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-}
-
-p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
 
 a {
     color: #3f84fc;
@@ -175,31 +166,6 @@ a:hover {
     color: #0458eb;
     text-decoration: underline;
 }
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-    font-family: "Nunito", sans-serif;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-}
-
-h1,
-.h1 {
-    font-size: 2.5rem;
-    font-weight: normal;
-}
-
 
 .dashboard {
     display: -webkit-box;
@@ -224,7 +190,7 @@ h1,
     top: 0;
     bottom: 0;
     overflow: auto;
-    background-color: #373193;
+    background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
 }
 
 .dashboard-compact .dashboard-nav {
@@ -253,6 +219,11 @@ h1,
     margin-right: auto;
 }
 
+.username {
+    text-align: center;
+    color: white;
+}
+
 .dashboard-nav a {
     color: #515151;
 }
@@ -262,39 +233,12 @@ h1,
 }
 
 .dashboard-nav {
-    background-color: #443ea2;
+    background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
 }
 
-.dashboard-nav a {
+.dashboard-nav a,
+button {
     color: #fff;
-}
-
-.brand-logo {
-    font-family: "Nunito", sans-serif;
-    font-weight: bold;
-    font-size: 20px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    color: #515151;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-}
-
-.brand-logo:focus,
-.brand-logo:active,
-.brand-logo:hover {
-    color: #dbdbdb;
-    text-decoration: none;
-}
-
-.brand-logo i {
-    color: #d2d1d1;
-    font-size: 27px;
-    margin-right: 10px;
 }
 
 .dashboard-nav-list {
@@ -311,7 +255,7 @@ h1,
 
 .dashboard-nav-item {
     min-height: 56px;
-    padding: 8px 20px 8px 70px;
+    padding: 8px 50px 8px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -321,12 +265,10 @@ h1,
     -ms-flex-align: center;
     align-items: center;
     letter-spacing: 0.02em;
-    transition: ease-out 0.5s;
+    transition: ease-out 0.9s;
 }
 
-.dashboard-nav-item i {
-    width: 36px;
-    font-size: 19px;
+.dashboard-nav-item font-awesome-icon {
     margin-left: -40px;
 }
 
@@ -500,6 +442,10 @@ h1,
         z-index: 1070;
     }
 
+    .dashboard-nav {
+        background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
+    }
+
     .dashboard-nav.mobile-show {
         display: block;
     }
@@ -519,8 +465,16 @@ h1,
         left: 238px;
     }
 
+    .dashboard-nav {
+        background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
+    }
+
     .dashboard-compact .dashboard-toolbar {
         left: 0;
     }
+}
+
+::-webkit-scrollbar {
+    widows: 5px;
 }
 </style>

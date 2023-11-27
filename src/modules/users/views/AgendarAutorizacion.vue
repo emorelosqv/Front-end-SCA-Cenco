@@ -169,59 +169,52 @@
                                 <div class="mb-3">
                                     <label for="inputDepartamentoAgendarAutorizacion"><strong>Digite el
                                             departamento</strong></label>
-                                    <input list="listaDepartamentos" class="form-control"
-                                        id="inputDepartamentoAgendarAutorizacion"
-                                        aria-describedby="inputDepartamentoAgendarAutorizacion" required
-                                        v-model="agendarAutorizacionForm.Departamento" />
-                                    <datalist id="listaDepartamentos">
-                                        <option value="Departamento 1"></option>
-                                        <option value="Departamento 2"></option>
-                                        <option value="Departamento 3"></option>
-                                        <option value="Departamento 4"></option>
-                                        <option value="Departamento 5"></option>
-                                    </datalist>
+                                    <select class="select form-control form-control-lg"
+                                        v-model.number="agendarAutorizacionForm.Departamento" id="departamento"
+                                        @change="changeDepartamento()" required>
+                                        <option v-for="departamento in departamentos" :value="departamento.id"
+                                            :key="departamento.id">
+                                            {{ departamento.nombre }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputMunicipioAgendarAutorizacion"><strong>Digite el
                                             municipio</strong></label>
-                                    <input list="listaMunicipios" class="form-control"
-                                        id="inputMunicipioAgendarAutorizacion"
-                                        aria-describedby="inputMunicipioAgendarAutorizacion" required
-                                        v-model="agendarAutorizacionForm.Municipio" />
-                                    <datalist id="listaMunicipios">
-                                        <option value="Municipio 1"></option>
-                                        <option value="Municipio 2"></option>
-                                        <option value="Municipio 3"></option>
-                                        <option value="Municipio 4"></option>
-                                        <option value="Municipio 5"></option>
-                                    </datalist>
+                                    <select class="select form-control form-control-lg"
+                                        v-model.number="agendarAutorizacionForm.Municipio" id="municipio"
+                                        @change="changeMunicipio()" required>
+                                        <option v-for="municipio in municipios" :value="municipio.id" :key="municipio.id">
+                                            {{ municipio.nombre }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputTiendaAgendarAutorizacion"><strong>Digite la tienda</strong></label>
-                                    <input list="listaTiendas" class="form-control" id="inputTiendaAgendarAutorizacion"
-                                        aria-describedby="inputTiendaAgendarAutorizacion" required
-                                        v-model="agendarAutorizacionForm.Tienda" />
-                                    <datalist id="listaTiendas">
-                                        <option value="Tienda 1"></option>
-                                        <option value="Tienda 2"></option>
-                                        <option value="Tienda 3"></option>
-                                        <option value="Tienda 4"></option>
-                                        <option value="Tienda 5"></option>
-                                    </datalist>
+                                    <select class="select form-control form-control-lg"
+                                        v-model.number="agendarAutorizacionForm.Tienda" id="tienda" required>
+                                        <option v-for="tienda in tiendas" :value="tienda.id" :key="tienda.id">
+                                            {{ tienda.tienda }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputAreaAgendarAutorizacion"><strong>Seleccione el area
                                             solicitante</strong></label>
-                                    <input list="listaAreas" class="form-control" id="inputAreaAgendarAutorizacion"
-                                        aria-describedby="inputAreaAgendarAutorizacion" required
-                                        v-model="agendarAutorizacionForm.Area" />
-                                    <datalist id="listaAreas">
-                                        <option value="Area 1"></option>
-                                        <option value="Area 2"></option>
-                                        <option value="Area 3"></option>
-                                        <option value="Area 4"></option>
-                                        <option value="Area 5"></option>
-                                    </datalist>
+                                    <!-- <select class="select form-control form-control-lg"
+                                        v-model="agendarAutorizacionForm.Tienda" id="tienda" required>
+                                        <option v-for="tienda in tiendas" :value="tienda.id" :key="tienda.id">
+                                            {{ tienda.tienda }}
+                                        </option>
+                                    </select> -->
+                                    <select class="select form-control form-control-lg"
+                                        v-model.number="agendarAutorizacionForm.Area" id="tienda" required>
+                                        <option value="1"> Area 1</option>
+                                        <option value="2"> Area 2</option>
+                                        <option value="3"> Area 3</option>
+                                        <option value="4"> Area 4</option>
+                                        <option value="5"> Area 5</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <textarea class="form-control" placeholder="Descripción" name=""
@@ -239,10 +232,35 @@
 </template>
 
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useUser from '../composables/useUser'
 import DashboardLayout from '@Layouts/DashboardLayout.vue'
+import useConfig from '@Modules/config/composables/useConfig'
+
+const { obtenerDepartamentos, useGetDepartamentos,
+    obtenerMunicipios, useGetMunicipios,
+    obtenerTiendas, useGetTiendas } = useConfig()
+
+onMounted(() => {
+    obtenerDepartamentos()
+})
+const departamentos = useGetDepartamentos
+
+function changeDepartamento() {
+    const valDepartamento = document.getElementById('departamento').value
+    obtenerMunicipios(valDepartamento)
+}
+
+const municipios = useGetMunicipios
+
+function changeMunicipio() {
+    const valMunicipio = document.getElementById('municipio').value
+    obtenerTiendas(valMunicipio)
+}
+
+const tiendas = useGetTiendas
+
 const agendarAutorizacionForm = ref({
     Nombres: '',
     Apellidos: '',
@@ -260,10 +278,10 @@ const agendarAutorizacionForm = ref({
     HojaDeVida: null,
     DocumentoEps: null,
     DocumentoManipulacionAlimentos: null,
-    Departamento: '',
-    Municipio: '',
-    Tienda: '',
-    Area: '',
+    Departamento: 0,
+    Municipio: 0,
+    Tienda: 0,
+    Area: 0,
     Descripcion: ''
 })
 

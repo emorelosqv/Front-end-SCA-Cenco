@@ -13,18 +13,18 @@ const useUser = () => {
         return status
     }
 
-    const obtenerSolicitudesPendientes = async () => {
-        const result = await userStore.obtenerSolicitudesPendientes();
+    const obtenerSolicitudesPendientes = async (idUsuario: number) => {
+        const result = await userStore.obtenerSolicitudesPendientes(idUsuario);
         return result
     }
 
-    const obtenerSolicitudesAprobadas = async () => {
-        const result = await userStore.obtenerSolicitudesAprobadas();
+    const obtenerSolicitudesAprobadas = async (idUsuario: number) => {
+        const result = await userStore.obtenerSolicitudesAprobadas(idUsuario);
         return result
     }
 
-    const obtenerSolicitudesRechazadas = async () => {
-        const result = await userStore.obtenerSolicitudesRechazadas();
+    const obtenerSolicitudesRechazadas = async (idUsuario: number) => {
+        const result = await userStore.obtenerSolicitudesRechazadas(idUsuario);
         return result
     }
 

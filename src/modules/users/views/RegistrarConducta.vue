@@ -1,57 +1,57 @@
 <template>
-    <div class="container text-center mt-2 my-4">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-title">
-                    <h1>Registro de Conducta</h1>
-                </div>
-                <div class="card-body">
-                    <form @submit.prevent="registrarConductaEvent">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="inputNombresRegistrarConducta"
-                                aria-describedby="inputNombresRegistrarConducta" placeholder="Nombres"
-                                v-model="registrarConductaForm.Nombres">
-
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="inputApellidosRegistrarConducta"
-                                aria-describedby="inputApellidosRegistrarConducta" placeholder="Apellidos"
-                                v-model="registrarConductaForm.Apellidos">
-
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="inputIdentificacionRegistrarConducta"
-                                aria-describedby="inputIdentificacionRegistrarConducta" placeholder="Identificacion"
-                                v-model="registrarConductaForm.Identificacion">
-
-                        </div>
-                        <div class="mb-3">
-                            <input type="date" class="form-control" id="inputFechaRegistrarConducta"
-                                aria-describedby="inputFechaRegistrarConducta" v-model="registrarConductaForm.Fecha">
-                        </div>
-                        <!-- <div class="mb-3">
+    <DashboardLayout>
+        <div class="container text-center mt-2 my-4">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-title">
+                        <h1>Registro de Conducta</h1>
+                    </div>
+                    <div class="card-body">
+                        <form @submit.prevent="registrarConductaEvent">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="inputNombresRegistrarConducta"
+                                    aria-describedby="inputNombresRegistrarConducta" placeholder="Nombres"
+                                    v-model="registrarConductaForm.Nombres">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="inputApellidosRegistrarConducta"
+                                    aria-describedby="inputApellidosRegistrarConducta" placeholder="Apellidos"
+                                    v-model="registrarConductaForm.Apellidos">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="inputIdentificacionRegistrarConducta"
+                                    aria-describedby="inputIdentificacionRegistrarConducta" placeholder="Identificacion"
+                                    v-model="registrarConductaForm.Identificacion">
+                            </div>
+                            <div class="mb-3">
+                                <input type="date" class="form-control" id="inputFechaRegistrarConducta"
+                                    aria-describedby="inputFechaRegistrarConducta" v-model="registrarConductaForm.Fecha">
+                            </div>
+                            <!-- <div class="mb-3">
                             <input type="file" multiple class="form-control" id="inputPasswordRegister"
                                 aria-describedby="inputPasswordRegister" placeholder="">
                         </div> -->
-                        <div class="mb-3">
-                            <textarea class="form-control" placeholder="Descripcion" name="" id="" cols="60" rows="8"
-                                v-model="registrarConductaForm.Descripcion">
+                            <div class="mb-3">
+                                <textarea class="form-control" placeholder="Descripcion" name="" id="" cols="60" rows="8"
+                                    v-model="registrarConductaForm.Descripcion">
 
                             </textarea>
-                        </div>
-                        <button type="submit" class="btn text-light" id="boton">Registrar Conducta</button>
-                    </form>
-                </div>
+                            </div>
+                            <button type="submit" class="btn text-light" id="boton">Registrar Conducta</button>
+                        </form>
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
+    </DashboardLayout>
 </template>
 
 <script setup>
 import { inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useUser from '../composables/useUser'
+import DashboardLayout from '@Layouts/DashboardLayout.vue'
 
 const registrarConductaForm = ref({
     Nombres: '',

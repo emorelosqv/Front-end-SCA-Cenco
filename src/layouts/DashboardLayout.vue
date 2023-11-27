@@ -1,9 +1,9 @@
 <template>
     <div class="row contenedorLayoutDashboard">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <menu-dashboard></menu-dashboard>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-8 my-4">
             <slot></slot>
         </div>
     </div>

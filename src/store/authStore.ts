@@ -29,7 +29,6 @@ export const useAuthStore = defineStore('auth', {
           this.setToken(res.data.data.sessionToken);
           const arregloUsuario = JSON.parse(res.data.data.usuario)
           const usuario = arregloUsuario[0]
-          console.log(usuario)
           localStorage.setItem("identifiacionUsuario", usuario.identificacion)
           localStorage.setItem("rol", usuario.idRol)
           localStorage.setItem("nombreCompleto", usuario.nombreCompleto)

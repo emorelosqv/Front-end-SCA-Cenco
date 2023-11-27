@@ -15,10 +15,10 @@ interface Autorizacion {
     HoraEntradaAutorizacion: string,
     HoraSalidaAutorizacion: string,
     Identificacion: number,
-    Departamento: string,
-    Municipio: string,
-    Tienda: string,
-    Area: string,
+    Departamento: number,
+    Municipio: number,
+    Tienda: number,
+    Area: number,
     Descripcion: string;
 }
 
@@ -43,10 +43,10 @@ export interface IAgendarAutorizacion {
     HoraEntradaAutorizacion: string,
     HoraSalidaAutorizacion: string,
     Identificacion: number,
-    Departamento: string,
-    Municipio: string,
-    Tienda: string,
-    Area: string,
+    Departamento: number,
+    Municipio: number,
+    Tienda: number,
+    Area: number,
     Descripcion: string;
 }
 

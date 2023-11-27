@@ -20,7 +20,7 @@
                                             <div class="form-outline mb-4" style="color: white;">
                                                 <label class="form-label" for="email">Correo electrónico</label>
                                                 <input type="email" id="email" v-model="loginForm.Correo" required
-                                                    placeholder="e.j. example@example.com"
+                                                    placeholder="ejemplo@ejemplo.com"
                                                     class="form-control form-control-lg" />
                                             </div>
                                             <div class="form-outline mb-4" style="color: white;">
@@ -32,13 +32,12 @@
                                                 <button class="botonLogin btn btn-lg btn-block" type="submit">Iniciar
                                                     sesión</button>
                                             </div>
-                                            <!-- <a class="small text-muted" href="#!">Forgot password?</a> -->
                                             <p class="registerLink mb-5 pb-lg-2">¿No tienes una cuenta?
                                                 <router-link to="/register" class="registerLinkA">Registrate
                                                     aquí.</router-link>
                                             </p>
-                                            <a href="#!" class="small text-muted">Terms of use.</a>
-                                            <a href="#!" class="small text-muted">Privacy policy</a>
+                                            <a href="" class="small" style="color: #fff;">Términos y
+                                                Condiciones.</a>
                                         </form>
                                     </div>
                                 </div>
@@ -49,7 +48,7 @@
             </div>
         </section>
     </div>
-    <!-- <Footer></Footer> -->
+    <Footer></Footer>
 </template>
 
 <script setup>

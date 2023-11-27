@@ -167,11 +167,11 @@
                                                 </div>
                                                 <div class="form-check d-flex justify-content-start mb-4 pb-3">
                                                     <input class="form-check-input me-3" type="checkbox" value=""
-                                                        id="form2Example3c" />
+                                                        id="form2Example3c" required />
                                                     <label class="form-check-label text-white" for="form2Example3">
-                                                        I do accept the <a href="#!" class="text-white"><u>Terms and
-                                                                Conditions</u></a> of your
-                                                        site.
+                                                        He leído y acepto <a href="" class="text-white"><u>Términos y
+                                                                Condiciones
+                                                            </u></a> del sitio.
                                                     </label>
                                                 </div>
                                                 <button type="submit" class="botonRegister btn btn-lg"
@@ -187,13 +187,14 @@
             </div>
         </section>
     </div>
+    <Footer></Footer>
 </template>
 <script setup>
 import { inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useAuth from '../composables/useAuth'
 import Navegacion from '@Components/Nav.vue'
-
+import Footer from '@Components/Footer.vue'
 const registerForm = ref({
     TipoIdentificacion: '',
     Identifacion: '',
@@ -251,6 +252,7 @@ h1 {
 
     background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
 }
+
 
 a {
     text-decoration: none;

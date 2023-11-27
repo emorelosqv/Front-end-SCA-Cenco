@@ -10,9 +10,9 @@
             <nav class="dashboard-nav-list">
                 <h3 class="username"><span>{{ nombreUsuario }}</span></h3>
 
-                <a href="#" class="dashboard-nav-item">
+                <router-link to="/dashboard" class="dashboard-nav-item">
                     <font-awesome-icon :icon="['fas', 'house']" size="xl" /> Inicio
-                </a>
+                </router-link>
                 <div v-if="administrador" class='dashboard-nav-dropdown'>
                     <a href="javascript:void(0);"
                         class="dashboard-nav-item dashboard-nav-dropdown-toggle"><font-awesome-icon

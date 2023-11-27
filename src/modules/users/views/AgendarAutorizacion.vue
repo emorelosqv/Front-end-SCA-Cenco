@@ -40,15 +40,31 @@
                                         <div class="col-md-12">
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="herramientasOptions"
-                                                    id="herramientasOptions1" value="1" required
+                                                    id="herramientasOptions1" value="1"
+                                                    @click="mostrarListaHerramientasTrabajo(1)" required
                                                     v-model="agendarAutorizacionForm.TieneHerramientas">
                                                 <label class="form-check-label" for="herramientasOptions1">Sí</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="herramientasOptions"
                                                     id="herramientasOptions2" value="0"
+                                                    @click="mostrarListaHerramientasTrabajo(0)"
                                                     v-model="agendarAutorizacionForm.TieneHerramientas">
                                                 <label class="form-check-label" for="herramientasOptions2">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="row" v-if="TieneHerramientas">
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label for="inputFileListaHerramientasAgendarAutorizacion"><strong>Lista
+                                                        de herramientas</strong></label>
+                                                <input type="file" class="form-control"
+                                                    id="inputFileListaHerramientasAgendarAutorizacion"
+                                                    aria-describedby="inputFileListaHerramientasAgendarAutorizacion"
+                                                    @change="changeFileListaHerramientas" />
                                             </div>
                                         </div>
                                     </div>
@@ -147,10 +163,12 @@
                                         @change="changeFileArl" accept="application/pdf" />
                                 </div>
                                 <div class="mb-3">
-                                    <label for="inputHojaDeVidaAgendarAutorizacion"><strong>Hoja de vida</strong></label>
-                                    <input type="file" class="form-control" id="inputHojaDeVidaAgendarAutorizacion"
-                                        aria-describedby="inputHojaDeVidaAgendarAutorizacion" required
-                                        @change="changeFileHojaDeVida" accept="application/pdf" />
+                                    <label for="inputFileDocumentoIdentificacionAgendarAutorizacion"><strong>Documento de
+                                            identificación</strong></label>
+                                    <input type="file" class="form-control"
+                                        id="inputFileDocumentoIdentificacionAgendarAutorizacion"
+                                        aria-describedby="inputFileDocumentoIdentificacionAgendarAutorizacion" required
+                                        @change="changeFileDocumentoIdentificacion" accept="application/pdf" />
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputDocumentoEpsAgendarAutorizacion"><strong>Documento EPS</strong></label>
@@ -199,7 +217,7 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="inputAreaAgendarAutorizacion"><strong>Seleccione el area
+                                    <label for="inputAreaAgendarAutorizacion"><strong>Seleccione el área
                                             solicitante</strong></label>
                                     <!-- <select class="select form-control form-control-lg"
                                         v-model="agendarAutorizacionForm.Tienda" id="tienda" required>
@@ -209,11 +227,11 @@
                                     </select> -->
                                     <select class="select form-control form-control-lg"
                                         v-model.number="agendarAutorizacionForm.Area" id="tienda" required>
-                                        <option value="1"> Area 1</option>
-                                        <option value="2"> Area 2</option>
-                                        <option value="3"> Area 3</option>
-                                        <option value="4"> Area 4</option>
-                                        <option value="5"> Area 5</option>
+                                        <option value="1"> Área 1</option>
+                                        <option value="2"> Área 2</option>
+                                        <option value="3"> Área 3</option>
+                                        <option value="4"> Área 4</option>
+                                        <option value="5"> Área 5</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -275,9 +293,10 @@ const agendarAutorizacionForm = ref({
     HoraEntradaAutorizacion: '',
     HoraSalidaAutorizacion: '',
     DocumentoArl: null,
-    HojaDeVida: null,
+    DocumentoIdentificacion: null,
     DocumentoEps: null,
     DocumentoManipulacionAlimentos: null,
+    ListaHerramientas: null,
     Departamento: 0,
     Municipio: 0,
     Tienda: 0,
@@ -286,6 +305,8 @@ const agendarAutorizacionForm = ref({
 })
 
 let UnSoloDia = ref(false)
+
+let TieneHerramientas = ref(false)
 
 const router = useRouter()
 const { agendarAutorizacion } = useUser()
@@ -299,6 +320,15 @@ function mostrarRangoDeFecha() {
     UnSoloDia.value = true
 }
 
+function mostrarListaHerramientasTrabajo(opcion) {
+    if (opcion == 1) {
+        TieneHerramientas.value = true
+    } else {
+        TieneHerramientas.value = false
+    }
+
+}
+
 function changeFileArl() {
     const inputDocumentoArl = document.getElementById('inputDocumentoArlAgendarAutorizacion');
     if (inputDocumentoArl.files && inputDocumentoArl.files[0]) {
@@ -306,10 +336,17 @@ function changeFileArl() {
     }
 }
 
-function changeFileHojaDeVida() {
-    const inputDocumentoHojaDeVida = document.getElementById('inputHojaDeVidaAgendarAutorizacion');
-    if (inputDocumentoHojaDeVida.files && inputDocumentoHojaDeVida.files[0]) {
-        agendarAutorizacionForm.value.HojaDeVida = inputDocumentoHojaDeVida.files[0];
+function changeFileDocumentoIdentificacion() {
+    const inputFileDocumentoIdentificacionAgendarAutorizacion = document.getElementById('inputFileDocumentoIdentificacionAgendarAutorizacion');
+    if (inputFileDocumentoIdentificacionAgendarAutorizacion.files && inputFileDocumentoIdentificacionAgendarAutorizacion.files[0]) {
+        agendarAutorizacionForm.value.DocumentoIdentificacion = inputFileDocumentoIdentificacionAgendarAutorizacion.files[0];
+    }
+}
+
+function changeFileListaHerramientas() {
+    const inputFileListaHerramientasAgendarAutorizacion = document.getElementById('inputFileListaHerramientasAgendarAutorizacion');
+    if (inputFileListaHerramientasAgendarAutorizacion.files && inputFileListaHerramientasAgendarAutorizacion.files[0]) {
+        agendarAutorizacionForm.value.ListaHerramientas = inputFileListaHerramientasAgendarAutorizacion.files[0];
     }
 }
 

@@ -1,7 +1,8 @@
 <template>
     <Navegacion></Navegacion>
-    <div class="container text-center mt-2 my-4">
-        <!-- <div class="col-md-4 offset-md-4">
+    <div class="contenedor-general">
+        <div class="container text-center">
+            <!-- <div class="col-md-4 offset-md-4">
             <div class="card">
                 <div class="card-title">
                     <h1>Registrarte</h1>
@@ -49,144 +50,146 @@
                 </div>
             </div>
         </div> -->
-        <section class="h-100">
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-12">
-                        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-                            <div class="card-body p-0">
-                                <form @submit.prevent="onSubmit">
-                                    <div class="row g-0">
-                                        <div class="col-lg-6">
-                                            <div class="p-5">
-                                                <h3 class="fw-normal mb-5 headerDatosPersonales">Datos personales</h3>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-4 pb-2">
-                                                        <label class="form-label" for="form3Examplev2">Tipo de
-                                                            identificación</label>
-                                                        <select class="select form-control form-control-lg"
-                                                            v-model="registerForm.TipoIdentificacion" required>
-                                                            <option value="CC">Cédula de ciudadanía</option>
-                                                            <option value="NIT">NIT</option>
-                                                            <option value="TI">Tarjeta de identidad</option>
-                                                            <option value="RC">Registro civil</option>
-                                                            <option value="PS">Pasaporte</option>
-                                                            <option value="TE">Tarjeta de extranjería</option>
-                                                            <option value="CE">Cédula de extranjería</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-6 mb-4 pb-2">
-                                                        <div class="form-outline">
-                                                            <label class="form-label" for="form3Examplev2">Número de
+            <section class="h-100">
+                <div class="container py-5 h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-12">
+                            <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                                <div class="card-body p-0">
+                                    <form @submit.prevent="onSubmit">
+                                        <div class="row g-0">
+                                            <div class="col-lg-6">
+                                                <div class="p-5">
+                                                    <h3 class="fw-normal mb-5 headerDatosPersonales">Datos personales</h3>
+                                                    <div class="row">
+                                                        <div class="col-md-6 mb-4 pb-2">
+                                                            <label class="form-label" for="form3Examplev2">Tipo de
                                                                 identificación</label>
-                                                            <input type="text" id="form3Examplev2"
-                                                                class="form-control form-control-lg"
-                                                                v-model="registerForm.Identificacion" required />
+                                                            <select class="select form-control form-control-lg"
+                                                                v-model="registerForm.TipoIdentificacion" required>
+                                                                <option value="CC">Cédula de ciudadanía</option>
+                                                                <option value="NIT">NIT</option>
+                                                                <option value="TI">Tarjeta de identidad</option>
+                                                                <option value="RC">Registro civil</option>
+                                                                <option value="PS">Pasaporte</option>
+                                                                <option value="TE">Tarjeta de extranjería</option>
+                                                                <option value="CE">Cédula de extranjería</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6 mb-4 pb-2">
+                                                            <div class="form-outline">
+                                                                <label class="form-label" for="form3Examplev2">Número de
+                                                                    identificación</label>
+                                                                <input type="text" id="form3Examplev2"
+                                                                    class="form-control form-control-lg"
+                                                                    v-model="registerForm.Identificacion" required />
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
+                                                    <div class="row">
+                                                        <div class="mb-4 pb-2">
+                                                            <div class="form-outline">
+                                                                <label class="form-label" for="form3Examplev2">Nombre
+                                                                    completo</label>
+                                                                <input type="text" id="form3Examplev2"
+                                                                    class="form-control form-control-lg"
+                                                                    v-model="registerForm.NombreCompleto" required />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="mb-4 pb-2">
                                                         <div class="form-outline">
-                                                            <label class="form-label" for="form3Examplev2">Nombre
-                                                                completo</label>
-                                                            <input type="text" id="form3Examplev2"
+                                                            <label class="form-label" for="form3Examplev4">Correo
+                                                                electrónico</label>
+                                                            <input type="email" id="form3Examplev4"
                                                                 class="form-control form-control-lg"
-                                                                v-model="registerForm.NombreCompleto" required />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-4 pb-2">
-                                                    <div class="form-outline">
-                                                        <label class="form-label" for="form3Examplev4">Correo
-                                                            electrónico</label>
-                                                        <input type="email" id="form3Examplev4"
-                                                            class="form-control form-control-lg"
-                                                            v-model="registerForm.Correo" required />
+                                                                v-model="registerForm.Correo" required />
 
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="mb-4 pb-2">
-                                                        <div class="form-outline">
-                                                            <label class="form-label"
-                                                                for="form3Examplev5">Contraseña</label>
-                                                            <input type="password" id="form3Examplev5"
-                                                                class="form-control form-control-lg"
-                                                                v-model="registerForm.Password" required />
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="mb-4 pb-2">
-                                                        <div class="form-outline">
-                                                            <label class="form-label" for="confirmPassword">Confirmar
-                                                                contraseña</label>
-                                                            <input type="password" id="confirmPassword"
-                                                                class="form-control form-control-lg" required />
+                                                    <div class="row">
+                                                        <div class="mb-4 pb-2">
+                                                            <div class="form-outline">
+                                                                <label class="form-label"
+                                                                    for="form3Examplev5">Contraseña</label>
+                                                                <input type="password" id="form3Examplev5"
+                                                                    class="form-control form-control-lg"
+                                                                    v-model="registerForm.Password" required />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="mb-4 pb-2">
+                                                            <div class="form-outline">
+                                                                <label class="form-label" for="confirmPassword">Confirmar
+                                                                    contraseña</label>
+                                                                <input type="password" id="confirmPassword"
+                                                                    class="form-control form-control-lg" required />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6 contenedorDatosEmpresa text-white">
-                                            <div class="p-5">
-                                                <h3 class="fw-normal mb-5">Datos de la empresa</h3>
+                                            <div class="col-lg-6 contenedorDatosEmpresa text-white">
+                                                <div class="p-5">
+                                                    <h3 class="fw-normal mb-5">Datos de la empresa</h3>
 
-                                                <div class="mb-4 pb-2">
-                                                    <div class="form-outline form-white">
-                                                        <label class="form-label" for="form3Examplea2">Nombre de la
-                                                            empresa</label>
-                                                        <input type="text" id="form3Examplea2"
-                                                            class="form-control form-control-lg"
-                                                            v-model="registerForm.NombreEmpresa" required />
-
-                                                    </div>
-                                                </div>
-                                                <div class="mb-4 pb-2">
-                                                    <div class="form-outline form-white">
-                                                        <label class="form-label" for="form3Examplea3">Nit de la
-                                                            empresa</label>
-                                                        <input type="text" id="form3Examplea3"
-                                                            class="form-control form-control-lg"
-                                                            v-model="registerForm.NitEmpresa" required />
-
-                                                    </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="mb-4 pb-2">
-                                                        <label class="form-label" for="form3Examplea4">¿Qué cargo que
-                                                            desempeña en la empresa?</label>
                                                         <div class="form-outline form-white">
-                                                            <input type="text" id="form3Examplea4"
+                                                            <label class="form-label" for="form3Examplea2">Nombre de la
+                                                                empresa</label>
+                                                            <input type="text" id="form3Examplea2"
                                                                 class="form-control form-control-lg"
-                                                                v-model="registerForm.CargoTrabajador" required />
+                                                                v-model="registerForm.NombreEmpresa" required />
 
                                                         </div>
                                                     </div>
+                                                    <div class="mb-4 pb-2">
+                                                        <div class="form-outline form-white">
+                                                            <label class="form-label" for="form3Examplea3">Nit de la
+                                                                empresa</label>
+                                                            <input type="text" id="form3Examplea3"
+                                                                class="form-control form-control-lg"
+                                                                v-model="registerForm.NitEmpresa" required />
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="mb-4 pb-2">
+                                                            <label class="form-label" for="form3Examplea4">¿Qué cargo que
+                                                                desempeña en la empresa?</label>
+                                                            <div class="form-outline form-white">
+                                                                <input type="text" id="form3Examplea4"
+                                                                    class="form-control form-control-lg"
+                                                                    v-model="registerForm.CargoTrabajador" required />
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-check d-flex justify-content-start mb-4 pb-3">
+                                                        <input class="form-check-input me-3" type="checkbox" value=""
+                                                            id="form2Example3c" required />
+                                                        <label class="form-check-label text-white" for="form2Example3">
+                                                            He leído y acepto <a href="" class="text-white"><u>Términos y
+                                                                    Condiciones
+                                                                </u></a> del sitio.
+                                                        </label>
+                                                    </div>
+                                                    <button type="submit" class="botonRegister btn btn-lg"
+                                                        data-mdb-ripple-color="dark">Registrarte</button>
                                                 </div>
-                                                <div class="form-check d-flex justify-content-start mb-4 pb-3">
-                                                    <input class="form-check-input me-3" type="checkbox" value=""
-                                                        id="form2Example3c" required />
-                                                    <label class="form-check-label text-white" for="form2Example3">
-                                                        He leído y acepto <a href="" class="text-white"><u>Términos y
-                                                                Condiciones
-                                                            </u></a> del sitio.
-                                                    </label>
-                                                </div>
-                                                <button type="submit" class="botonRegister btn btn-lg"
-                                                    data-mdb-ripple-color="dark">Registrarte</button>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
+
     <Footer></Footer>
 </template>
 <script setup>
@@ -251,6 +254,13 @@ h1 {
 .contenedorDatosEmpresa {
 
     background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
+    border-radius: 1rem;
+}
+
+.contenedor-general {
+    background-image: url("@Assets/cencosud-fondo.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 

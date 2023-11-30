@@ -45,8 +45,8 @@
     width: 100%;
     position: sticky;
     background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
-    padding: 10px;
 }
+
 
 svg {
     fill: #fff;

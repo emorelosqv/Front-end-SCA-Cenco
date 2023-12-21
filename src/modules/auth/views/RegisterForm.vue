@@ -2,70 +2,36 @@
     <Navegacion></Navegacion>
     <div class="contenedor-general">
         <div class="container text-center">
-            <!-- <div class="col-md-4 offset-md-4">
-            <div class="card">
-                <div class="card-title">
-                    <h1>Registrarte</h1>
-                </div>
-                <div class="card-body">
-                    <form @submit.prevent="onSubmit">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="inputNombreRegistrer"
-                                aria-describedby="inputNombreRegistrer" 
-                                required placeholder="Nombre completo"
-                                v-model="userForm.NombreCompleto">
-
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="inputApellidosRegister"
-                                aria-describedby="inputIdentificacionRegister" 
-                                required placeholder="Identificacion"
-                                v-model="userForm.Identificacion">
-
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" class="form-control" id="inputEmailRegister"
-                                aria-describedby="inputEmailRegister" 
-                                required placeholder="Correo"
-                                v-model="userForm.Correo">
-
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="inputPasswordRegister"
-                                aria-describedby="inputPasswordRegister" 
-                                required placeholder="Contraseña"
-                                v-model="userForm.Password">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="inputValidPasswordRegister"
-                                aria-describedby="inputValidPasswordRegister" 
-                                required placeholder="Validar contraseña"
-                                v-model="userForm.ValidarPassword">
-                        </div>
-                        <div class="mb-3">
-                            <router-link to="/">¿Ya tienes una cuenta? Inicia sesión <strong>aquí</strong></router-link>
-                        </div>
-                        <button type="submit" class="btn text-light" id="boton">Registrarte</button>
-                    </form>
-                </div>
-            </div>
-        </div> -->
             <section class="h-100">
                 <div class="container py-5 h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col-12">
-                            <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                            <div class="card card-registration card-registration-2" style="background-color: transparent;">
                                 <div class="card-body p-0">
                                     <form @submit.prevent="onSubmit">
                                         <div class="row g-0">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="background-color: #fff;">
                                                 <div class="p-5">
                                                     <h3 class="fw-normal mb-5 headerDatosPersonales">Datos personales</h3>
+                                                    <div class="row">
+                                                        <div class="mb-4 pb-2">
+                                                            <div class="form-outline">
+                                                                <label class="form-label" for="form3Examplev2">Foto
+                                                                    de su rostro (selfie) </label>
+                                                                <label class="text-sm" style="color:#f7941d ;">(sin gorra,
+                                                                    gafas o cualquier objeto
+                                                                    que
+                                                                    impida su plena identificación)</label>
+                                                                <input type="file" id="fotoFrontal" class="form-control"
+                                                                    @change="convertir()" required />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4 pb-2">
                                                             <label class="form-label" for="form3Examplev2">Tipo de
                                                                 identificación</label>
-                                                            <select class="select form-control form-control-lg"
+                                                            <select class="select form-control"
                                                                 v-model="registerForm.TipoIdentificacion" required>
                                                                 <option value="CC">Cédula de ciudadanía</option>
                                                                 <option value="NIT">NIT</option>
@@ -80,8 +46,7 @@
                                                             <div class="form-outline">
                                                                 <label class="form-label" for="form3Examplev2">Número de
                                                                     identificación</label>
-                                                                <input type="text" id="form3Examplev2"
-                                                                    class="form-control form-control-lg"
+                                                                <input type="text" id="form3Examplev2" class="form-control"
                                                                     v-model="registerForm.Identificacion" required />
                                                             </div>
                                                         </div>
@@ -91,8 +56,7 @@
                                                             <div class="form-outline">
                                                                 <label class="form-label" for="form3Examplev2">Nombre
                                                                     completo</label>
-                                                                <input type="text" id="form3Examplev2"
-                                                                    class="form-control form-control-lg"
+                                                                <input type="text" id="form3Examplev2" class="form-control"
                                                                     v-model="registerForm.NombreCompleto" required />
                                                             </div>
                                                         </div>
@@ -101,8 +65,7 @@
                                                         <div class="form-outline">
                                                             <label class="form-label" for="form3Examplev4">Correo
                                                                 electrónico</label>
-                                                            <input type="email" id="form3Examplev4"
-                                                                class="form-control form-control-lg"
+                                                            <input type="email" id="form3Examplev4" class="form-control"
                                                                 v-model="registerForm.Correo" required />
 
                                                         </div>
@@ -113,8 +76,8 @@
                                                                 <label class="form-label"
                                                                     for="form3Examplev5">Contraseña</label>
                                                                 <input type="password" id="form3Examplev5"
-                                                                    class="form-control form-control-lg"
-                                                                    v-model="registerForm.Password" required />
+                                                                    class="form-control" v-model="registerForm.Password"
+                                                                    required />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -124,7 +87,7 @@
                                                                 <label class="form-label" for="confirmPassword">Confirmar
                                                                     contraseña</label>
                                                                 <input type="password" id="confirmPassword"
-                                                                    class="form-control form-control-lg" required />
+                                                                    class="form-control" required />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -138,8 +101,7 @@
                                                         <div class="form-outline form-white">
                                                             <label class="form-label" for="form3Examplea2">Nombre de la
                                                                 empresa</label>
-                                                            <input type="text" id="form3Examplea2"
-                                                                class="form-control form-control-lg"
+                                                            <input type="text" id="form3Examplea2" class="form-control"
                                                                 v-model="registerForm.NombreEmpresa" required />
 
                                                         </div>
@@ -148,8 +110,7 @@
                                                         <div class="form-outline form-white">
                                                             <label class="form-label" for="form3Examplea3">Nit de la
                                                                 empresa</label>
-                                                            <input type="text" id="form3Examplea3"
-                                                                class="form-control form-control-lg"
+                                                            <input type="text" id="form3Examplea3" class="form-control"
                                                                 v-model="registerForm.NitEmpresa" required />
 
                                                         </div>
@@ -159,8 +120,7 @@
                                                             <label class="form-label" for="form3Examplea4">¿Qué cargo que
                                                                 desempeña en la empresa?</label>
                                                             <div class="form-outline form-white">
-                                                                <input type="text" id="form3Examplea4"
-                                                                    class="form-control form-control-lg"
+                                                                <input type="text" id="form3Examplea4" class="form-control"
                                                                     v-model="registerForm.CargoTrabajador" required />
 
                                                             </div>
@@ -199,6 +159,7 @@ import useAuth from '../composables/useAuth'
 import Navegacion from '@Components/Nav.vue'
 import Footer from '@Components/Footer.vue'
 const registerForm = ref({
+    FotoFrontal: '',
     TipoIdentificacion: '',
     Identifacion: '',
     Correo: '',
@@ -212,6 +173,8 @@ const registerForm = ref({
 const router = useRouter()
 const { createUser, authStatus } = useAuth()
 const swal = inject('$swal')
+
+
 
 const onSubmit = async () => {
     try {
@@ -234,6 +197,28 @@ const onSubmit = async () => {
     }
 }
 
+
+
+
+
+async function convertir() {
+    const inputFile = document.getElementById('fotoFrontal');
+    const base64URL = await encodeFileAsBase64URL(inputFile.files[0]);
+    registerForm.value.FotoFrontal = base64URL
+
+}
+
+async function encodeFileAsBase64URL(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.addEventListener('loadend', () => {
+            resolve(reader.result);
+        });
+        reader.readAsDataURL(file);
+    });
+};
+
+
 </script>
 <style scoped>
 h1 {
@@ -254,11 +239,10 @@ h1 {
 .contenedorDatosEmpresa {
 
     background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
-    border-radius: 1rem;
 }
 
 .contenedor-general {
-    background-image: url("@Assets/cencosud-fondo.png");
+    background-image: url("@Assets/cencosud-fondo-2.png");
     background-repeat: no-repeat;
     background-size: cover;
 }

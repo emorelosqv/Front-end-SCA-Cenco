@@ -18,6 +18,7 @@ export interface IAuth {
 }
 
 export interface ICreateUser {
+    FotoFrontal: string;
     TipoIdentificacion: string;
     Identifacion: number;
     Correo: string;

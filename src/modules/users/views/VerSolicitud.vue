@@ -47,16 +47,101 @@
                     </div>
                     <div class="col-md-6 p-2">
                         <ul class="list-group">
-                            <li class="list-group-item">Nombre del solicitante: {{ soli.nombres }} {{ soli.apellidos }}</li>
-                            <li class="list-group-item">Correo: {{ soli.correo }}</li>
                             <li class="list-group-item">Estado de la solicitud: {{ soli.descripcionEstado }}</li>
                             <li class="list-group-item">Tienda: {{ soli.tienda }}</li>
                             <li class="list-group-item">Área solicitante: {{ soli.area }}</li>
                         </ul>
+                        <div class="row text-center my-2">
+                            <div class="col md-8">
+                                <button type="button" class="datosSolicitante btn text-center" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" @click="onObtenerDatosSolicitante(soli.identificacion)">
+                                    Datos del solicitante
+                                </button>
+                            </div>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Datos personales del solicitante
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-md-12">
+                                                <div class="card my-4" id="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <h4 class="text-center">Foto del solicitante</h4>
+                                                                        <img :src="solicitante.fotoFrontal"
+                                                                            alt="Foto frontal del solicitante"
+                                                                            class="img-fluid">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mt-4">
+                                                                    <p>Nombre completo: {{ solicitante.nombreCompleto }}</p>
+                                                                    <p>Tipo de identificacion: {{
+                                                                        solicitante.tipoIdentificacion
+                                                                    }}
+                                                                    </p>
+                                                                    <p>Nro. Identificacion: {{ solicitante.identificacion }}
+                                                                    </p>
+                                                                    <p>Correo: {{ solicitante.correo }}</p>
+                                                                    <h4 class="text-center">Datos de la empresa</h4>
+                                                                    <p>Nombre: {{ solicitante.nombreEmpresa }}</p>
+                                                                    <p>NIT: {{ solicitante.nitEmpresa }}</p>
+                                                                    <p>Cargo del trabajador: {{ solicitante.cargoTrabajador
+                                                                    }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <h3 class="text-center"> Registro de antecedentes </h3>
+                                                        <div class="row">
+                                                            <table class="table">
+                                                                <thead class="thead-dark">
+                                                                    <tr>
+                                                                        <th scope="col">#</th>
+                                                                        <th scope="col">Fecha</th>
+                                                                        <th scope="col">Tienda</th>
+                                                                        <th scope="col">Detalle</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr v-for="conducta in  conductasSolicitante "
+                                                                        :key="conducta.id">
+                                                                        <th scope="row">{{ conducta.id }}</th>
+                                                                        <td>{{ conducta.fecha }}</td>
+                                                                        <td>Tienda 1</td>
+                                                                        <td>
+                                                                            <!-- <button class="btn btn-secondary"
+                                                                            title="Descripcion del antecedente"
+                                                                            data-bs-toggle="popover"
+                                                                            :data-bs-content="conducta.descripcion">Ver
+                                                                            descripcion</button> -->
+                                                                            {{ conducta.descripcion }}
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row p-4">
-                    <Documento v-for="documento in documentos" :key="documento.id" :documento="documento" />
+                    <Documento v-for=" documento  in  documentos " :key="documento.id" :documento="documento" />
                 </div>
             </div>
         </div>
@@ -69,12 +154,16 @@ import { useRouter } from 'vue-router'
 import Documento from '../../../components/users/Documento.vue'
 import useUser from '../composables/useUser'
 import DashboardLayout from '@Layouts/DashboardLayout.vue'
+import DatosSolicitante from '@Components/users/DatosSolicitante.vue'
+
 const swal = inject('$swal')
 const router = useRouter()
 
 const { useObtenerSolicitud, obtenerSolicitud,
     useObtenerDocumentos, aprobarSolicitud,
-    rechazarSolicitud, enviarCorreo } = useUser()
+    rechazarSolicitud, enviarCorreo,
+    obtenerDatosSolicitante, useObtenerDatosSolicitante,
+    obtenerConductasUsuario, useObtenerConductasUsuario } = useUser()
 const { idSolicitud } = defineProps(['idSolicitud'])
 
 onBeforeMount(() => {
@@ -111,6 +200,17 @@ const onAprobarSolicitud = async () => {
         swal("Error", "Ha ocurrido un error", 'error')
     }
 }
+async function onObtenerDatosSolicitante(idSolicitante) {
+    try {
+        const result = await obtenerDatosSolicitante(idSolicitante)
+        const resultIncidencias = await obtenerConductasUsuario(idSolicitante)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const solicitante = useObtenerDatosSolicitante
+const conductasSolicitante = useObtenerConductasUsuario
 
 const onRechazarSolicitud = async () => {
     try {
@@ -128,6 +228,11 @@ const onRechazarSolicitud = async () => {
     }
 }
 
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+})
+
 </script>
 
 <style scoped>
@@ -137,5 +242,10 @@ h1 {
 
 #descripcionLabel {
     color: #f7941d;
+}
+
+.datosSolicitante {
+    background-color: #f7941d;
+    color: #fff;
 }
 </style>

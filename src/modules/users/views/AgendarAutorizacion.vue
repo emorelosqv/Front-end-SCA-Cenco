@@ -187,7 +187,7 @@
                                 <div class="mb-3">
                                     <label for="inputDepartamentoAgendarAutorizacion"><strong>Digite el
                                             departamento</strong></label>
-                                    <select class="select form-control form-control-lg"
+                                    <select class="select form-control"
                                         v-model.number="agendarAutorizacionForm.Departamento" id="departamento"
                                         @change="changeDepartamento()" required>
                                         <option v-for="departamento in departamentos" :value="departamento.id"
@@ -199,9 +199,8 @@
                                 <div class="mb-3">
                                     <label for="inputMunicipioAgendarAutorizacion"><strong>Digite el
                                             municipio</strong></label>
-                                    <select class="select form-control form-control-lg"
-                                        v-model.number="agendarAutorizacionForm.Municipio" id="municipio"
-                                        @change="changeMunicipio()" required>
+                                    <select class="select form-control" v-model.number="agendarAutorizacionForm.Municipio"
+                                        id="municipio" @change="changeMunicipio()" required>
                                         <option v-for="municipio in municipios" :value="municipio.id" :key="municipio.id">
                                             {{ municipio.nombre }}
                                         </option>
@@ -209,8 +208,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputTiendaAgendarAutorizacion"><strong>Digite la tienda</strong></label>
-                                    <select class="select form-control form-control-lg"
-                                        v-model.number="agendarAutorizacionForm.Tienda" id="tienda" required>
+                                    <select class="select form-control" v-model.number="agendarAutorizacionForm.Tienda"
+                                        id="tienda" required>
                                         <option v-for="tienda in tiendas" :value="tienda.id" :key="tienda.id">
                                             {{ tienda.tienda }}
                                         </option>
@@ -225,8 +224,8 @@
                                             {{ tienda.tienda }}
                                         </option>
                                     </select> -->
-                                    <select class="select form-control form-control-lg"
-                                        v-model.number="agendarAutorizacionForm.Area" id="tienda" required>
+                                    <select class="select form-control" v-model.number="agendarAutorizacionForm.Area"
+                                        id="tienda" required>
                                         <option value="1"> Área 1</option>
                                         <option value="2"> Área 2</option>
                                         <option value="3"> Área 3</option>

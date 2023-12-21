@@ -1,6 +1,7 @@
 <template>
     <DashboardLayout>
         <div class="container text-center mt-5">
+            <h2>Solicitudes de Ingreso</h2>
             <div class="row">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">

@@ -83,6 +83,21 @@ const useUser = () => {
         return result
     }
 
+    const obtenerDatosSolicitante = async (idSolicitante: number) => {
+        const result = await userStore.obtenerDatosSolicitante(idSolicitante)
+        return result
+    }
+    
+    const obtenerConductasUsuario = async (idUsuario: number) => {
+        const result = await userStore.obtenerConductasUsuario(idUsuario)
+        return result
+    }
+
+    const obtenerSolicitudesUsuario = async (idUsuario: number) => {
+        const result = await userStore.obtenerSolicitudesUsuario(idUsuario)
+        return result
+    }
+
     return {
         //methods
         agendarAutorizacion,
@@ -100,7 +115,9 @@ const useUser = () => {
         filtrarRegistrosIncidentes,
         filtrarRegistrosConductas,
         obtenerIncidente,
-
+        obtenerDatosSolicitante,
+        obtenerConductasUsuario,
+        obtenerSolicitudesUsuario,
         //getters
         useObtenerSolicitudesPendientes: computed(() => userStore.getSolicitudesPendientes),
         useObtenerSolicitudesAprobadas: computed(() => userStore.getSolicitudesAprobadas),
@@ -114,8 +131,10 @@ const useUser = () => {
         useObtenerConductas: computed(() => userStore.getConductas),
         useObtenerIncidentesFiltrados: computed(() => userStore.getIncidentesFiltrados),
         useObtenerConductasFiltradas: computed(() => userStore.getConductasFiltradas),
-        useObtenerIncidente: computed(() => userStore.getIncidente)
-
+        useObtenerIncidente: computed(() => userStore.getIncidente),
+        useObtenerDatosSolicitante: computed(() => userStore.getDatosSolicitante),
+        useObtenerConductasUsuario: computed(() => userStore.getConductasUsuario),
+        useObtenerSolicitudesUsuario: computed(() => userStore.getSolicitudesUsuario)
     };
 }
 

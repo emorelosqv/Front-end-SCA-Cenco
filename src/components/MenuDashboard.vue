@@ -8,7 +8,7 @@
 
             </header>
             <nav class="dashboard-nav-list">
-                <h3 class="username"><span>{{ nombreUsuario }}</span></h3>
+                <h5 class="username"><span>{{ nombreUsuario }}</span></h5>
 
                 <router-link to="/dashboard" class="dashboard-nav-item">
                     <font-awesome-icon :icon="['fas', 'house']" size="xl" /> Inicio
@@ -24,7 +24,7 @@
                             autorizaciones</router-link>
                     </div>
                 </div>
-                <div v-if="administrador || proveedor" class='dashboard-nav-dropdown'>
+                <div v-if="proveedor" class='dashboard-nav-dropdown'>
                     <a href="javascript:void(0);"
                         class="dashboard-nav-item dashboard-nav-dropdown-toggle"><font-awesome-icon
                             :icon="['fas', 'calendar-days']" size="xl" />
@@ -33,7 +33,8 @@
                     <div class='dashboard-nav-dropdown-menu'>
                         <router-link to="/agendar-autorizacion" class="dashboard-nav-dropdown-item">Nueva Aurizacion de
                             Ingreso</router-link>
-                        <a href="#" class="dashboard-nav-dropdown-item">Mis autorizaciones</a>
+                        <router-link to="/mostrar-autorizaciones" class="dashboard-nav-dropdown-item">Mis
+                            autorizaciones</router-link>
                     </div>
                 </div>
                 <div v-if="administrador || proveedor" class='dashboard-nav-dropdown'>
@@ -75,7 +76,7 @@
                             Antecendentes</router-link>
                     </div>
                 </div>
-                <div v-if="administrador" class='dashboard-nav-dropdown'>
+                <!-- <div v-if="administrador" class='dashboard-nav-dropdown'>
                     <a href="javascript:void(0);" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
                         <font-awesome-icon :icon="['fas', 'users']" size="xl" />Gestión de usuarios
                     </a>
@@ -83,8 +84,9 @@
                         <a href="#" class="dashboard-nav-dropdown-item">Crear usuario</a>
                         <a href="#" class="dashboard-nav-dropdown-item">Editar usuario</a>
                     </div>
-                </div>
-                <router-link to="#" class="dashboard-nav-item"><font-awesome-icon :icon="['fas', 'user']" size="xl" />Perfil
+                </div> -->
+                <router-link to="/ver-perfil" v-if="proveedor" class="dashboard-nav-item"><font-awesome-icon
+                        :icon="['fas', 'user']" size="xl" />Mi perfil
                 </router-link>
                 <div class="text-center">
                     <button class="dashboard-nav-item btn" @click="logoutAndClearCache" type="button">

@@ -36,12 +36,6 @@ const userRoutes = [
         component: () => import('@/modules/users/views/AuditarAcontecimiento.vue')
     },
     {
-        path: "/auditar-incidente",
-        name: "auditar-incidente",
-        beforeEnter:[ isAuditorGuard ],
-        component: () => import('@/modules/users/views/AuditarIncidente.vue')
-    },
-    {
         path: "/registrar-incidente",
         name: "registrarIncidente",
         beforeEnter:[ isAuditorGuard ],
@@ -66,18 +60,6 @@ const userRoutes = [
         component: () => import('@/modules/users/views/MostrarConductas.vue')
     },
     {
-        path: "/auditar-conducta",
-        name: "auditar-conducta",
-        beforeEnter:[ isAuditorGuard ],
-        component: () => import('@/modules/users/views/AuditarConducta.vue')
-    },
-    {
-        path: "/manuales",
-        name: "manuales",
-        beforeEnter:[ isProveedorGuard],
-        component: () => import('@/modules/users/views/Manuales.vue')
-    },
-    {
         path: "/manual-conducta",
         name: "manual-conducta",
         beforeEnter:[ isProveedorGuard],
@@ -92,7 +74,7 @@ const userRoutes = [
     {
         path: "/agendar-autorizacion",
         name: "agendar-autorizacion",
-        beforeEnter:[ isProveedorGuard],
+        beforeEnter:[ isProveedorGuard ],
         component: () => import('@/modules/users/views/AgendarAutorizacion.vue')
     },
     {
@@ -107,6 +89,21 @@ const userRoutes = [
         props: true,
         beforeEnter:[isAuditorGuard],
         component: () => import('@/modules/users/views/VerIncidente.vue')
+    },
+    {
+        path: "/ver-perfil",
+        name: "ver-perfil",
+        props: true,
+        beforeEnter:[ isProveedorGuard ],
+        component: () => import('@/modules/users/views/Perfil.vue')
+    }
+    ,
+    {
+        path: "/mostrar-autorizaciones",
+        name: "mostrar-autorizaciones",
+        props: true,
+        beforeEnter:[ isProveedorGuard ],
+        component: () => import('@/modules/users/views/MostrarAutorizaciones.vue')
     }
 ]
 

@@ -6,7 +6,7 @@
                 <div class="container py-5 h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col col-xl-10">
-                            <div class="card" style="border-radius: 1rem;">
+                            <div class="card" style="background-color: transparent;">
                                 <div class="row g-0">
                                     <div class="imagenTrabajadores col-md-6 col-lg-5 d-none d-md-block p-5">
                                         <!-- <img src="@Assets/cencosud-fondo.png" alt="login form" class="img-fluid"
@@ -100,7 +100,7 @@ const onSubmit = async () => {
 }
 
 .contenedor-general {
-    background-image: url("@Assets/cencosud-fondo.png");
+    background-image: url("@Assets/cencosud-fondo-2.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -111,15 +111,13 @@ a {
 }
 
 .imagenTrabajadores {
-    background-image: url("@Assets/cencosud-fondo.png");
+    background-image: url("@Assets/cencosud-fondo.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    border-radius: 0.5rem;
 }
 
 .contenedorLogin {
     background: linear-gradient(to left, #0069B4 0%, #0AC3FF 100%);
-    border-radius: 0.5rem;
 }
 </style>

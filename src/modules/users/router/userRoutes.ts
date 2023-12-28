@@ -105,6 +105,14 @@ const userRoutes = [
         beforeEnter:[ isProveedorGuard ],
         component: () => import('@/modules/users/views/MostrarAutorizaciones.vue')
     }
+    ,
+    {
+        path: "/estadisticas",
+        name: "estadisticas",
+        props: true,
+        beforeEnter:[ isAdministradorGuard ],
+        component: () => import('@/modules/users/views/Estadisticas.vue')
+    }
 ]
 
 export default userRoutes

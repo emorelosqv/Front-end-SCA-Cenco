@@ -20,7 +20,8 @@ export const useUserStore = defineStore('user', {
       datosSolicitante: {},
       documentos: [],
       conductasUsuario: [],
-      solicitudesUsuario: []
+      solicitudesUsuario: [],
+      aforo: {}
     }
   },
   actions: {
@@ -233,6 +234,17 @@ export const useUserStore = defineStore('user', {
         return error
       }
     },
+    async generarIngreso(idSolicitud:number){
+      try {
+        const result = await cencoApi.post("userData/generar-ingreso/"+idSolicitud)
+        const data = JSON.parse(result.data.data.respuestaApi)
+        const respuestaApi = data[0]
+        return respuestaApi
+      } catch (error) {
+        console.log( "Error: "+error)
+        return error
+      }
+    },
     async rechazarSolicitud(idSolicitud:number){
       try {       
         const result = await cencoApi.post("userData/rechazar-solicitud/"+idSolicitud)
@@ -288,6 +300,18 @@ export const useUserStore = defineStore('user', {
         return error
       }
     },
+    async obtenerAforo(){
+      try {
+        const result = await cencoApi.get("userData/aforo")
+        const data = JSON.parse(result.data.data.respuestaApi)
+        const respuestaApi = data[0]
+        this.aforo = respuestaApi
+        return respuestaApi
+      } catch (error) {
+        console.log( "Error: "+error)
+        return error
+      }
+    },
     async obtenerSolicitudesUsuario(idUsuario: number){
       console.log(idUsuario)
       try {       
@@ -322,6 +346,7 @@ export const useUserStore = defineStore('user', {
     getConductasFiltradas: (state) => state.conductasFiltradas,
     getDatosSolicitante: (state) => state.datosSolicitante,
     getConductasUsuario: (state) => state.conductasUsuario,
-    getSolicitudesUsuario: (state) => state.solicitudesUsuario
+    getSolicitudesUsuario: (state) => state.solicitudesUsuario,
+    getAforo: (state) => state.aforo
   }
 })

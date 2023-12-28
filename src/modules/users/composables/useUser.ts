@@ -98,6 +98,17 @@ const useUser = () => {
         return result
     }
 
+    const generarIngreso = async (idSolicitud: number) => {
+        const result = await userStore.generarIngreso(idSolicitud)
+        return result
+    }
+
+    const obtenerAforo = async () => {
+        const result = await userStore.obtenerAforo()
+        return result
+    }
+
+
     return {
         //methods
         agendarAutorizacion,
@@ -118,6 +129,9 @@ const useUser = () => {
         obtenerDatosSolicitante,
         obtenerConductasUsuario,
         obtenerSolicitudesUsuario,
+        generarIngreso,
+        obtenerAforo,
+
         //getters
         useObtenerSolicitudesPendientes: computed(() => userStore.getSolicitudesPendientes),
         useObtenerSolicitudesAprobadas: computed(() => userStore.getSolicitudesAprobadas),
@@ -134,7 +148,8 @@ const useUser = () => {
         useObtenerIncidente: computed(() => userStore.getIncidente),
         useObtenerDatosSolicitante: computed(() => userStore.getDatosSolicitante),
         useObtenerConductasUsuario: computed(() => userStore.getConductasUsuario),
-        useObtenerSolicitudesUsuario: computed(() => userStore.getSolicitudesUsuario)
+        useObtenerSolicitudesUsuario: computed(() => userStore.getSolicitudesUsuario),
+        useObtenerAforo: computed(() => userStore.getAforo)
     };
 }
 

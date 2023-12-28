@@ -21,6 +21,13 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="row" v-if="soli.idEstadoSolicitud == 2">
+                            <div class="col-md-6">
+                                <button class="btn btn-primary p-2 m-1" @click="onGenerarIngreso">
+                                    <font-awesome-icon :icon="['fas', 'check']" /> Generar Ingreso
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,7 +170,8 @@ const { useObtenerSolicitud, obtenerSolicitud,
     useObtenerDocumentos, aprobarSolicitud,
     rechazarSolicitud, enviarCorreo,
     obtenerDatosSolicitante, useObtenerDatosSolicitante,
-    obtenerConductasUsuario, useObtenerConductasUsuario } = useUser()
+    obtenerConductasUsuario, useObtenerConductasUsuario, 
+    generarIngreso } = useUser()
 const { idSolicitud } = defineProps(['idSolicitud'])
 
 onBeforeMount(() => {
@@ -200,6 +208,24 @@ const onAprobarSolicitud = async () => {
         swal("Error", "Ha ocurrido un error", 'error')
     }
 }
+
+
+const onGenerarIngreso = async () => {
+    try {
+        const respuestaApi = await generarIngreso(idSolicitud)
+        if (respuestaApi.statusCode === 200) {
+            router.push({ name: 'validar-autorizaciones' })
+            swal("Success", respuestaApi.msg, 'success')
+            await enviarCorreo(correoAprobacion)
+        } else {
+            swal('Error', respuestaApi.msg, 'error')
+        }
+    } catch (error) {
+        console.log(error)
+        swal("Error", "Ha ocurrido un error", 'error')
+    }
+}
+
 async function onObtenerDatosSolicitante(idSolicitante) {
     try {
         const result = await obtenerDatosSolicitante(idSolicitante)

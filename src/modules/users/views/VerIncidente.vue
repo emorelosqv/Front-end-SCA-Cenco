@@ -32,7 +32,7 @@ import { onBeforeMount, inject, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Documento from '../../../components/users/Documento.vue'
 import useUser from '../composables/useUser'
-import DashboardLayout from '@Layout/DashboardLayout.vue'
+import DashboardLayout from '@Layouts/DashboardLayout.vue'
 
 const swal = inject('$swal')
 const router = useRouter()

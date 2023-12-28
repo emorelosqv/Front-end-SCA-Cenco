@@ -58,7 +58,7 @@
                     </a>
                     <div class='dashboard-nav-dropdown-menu'>
                         <router-link to="/ver-aforo" class="dashboard-nav-dropdown-item">Aforo</router-link>
-                        <a href="#" class="dashboard-nav-dropdown-item">Estadisticas demograficas</a>
+                        <router-link to="/estadisticas" class="dashboard-nav-dropdown-item">Estadisticas demograficas</router-link>
                     </div>
                 </div>
                 <div v-if="administrador || auditor" class='dashboard-nav-dropdown'>

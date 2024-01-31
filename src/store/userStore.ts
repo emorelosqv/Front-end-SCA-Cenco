@@ -1,5 +1,5 @@
 import cencoApi from '@/services/cencoApi';
-import type { IAgendarAutorizacion} from '@/models/autorizacion.model';
+import type { IAgendarAutorizacion, IGenerarIngreso } from '@/models/autorizacion.model';
 import type { Incidente } from '@/models/incidente.model';
 import type { IConducta } from '@/models/conducta.model';
 import { defineStore } from 'pinia'
@@ -14,29 +14,32 @@ export const useUserStore = defineStore('user', {
       incidentes: [] as Incidente[],
       incidentesFiltrados: [] as Incidente[],
       incidente: {},
-      conductas: [] as IConducta [],
+      conductas: [] as IConducta[],
       conductasFiltradas: [] as IConducta[],
       solicitud: {},
       datosSolicitante: {},
       documentos: [],
       conductasUsuario: [],
       solicitudesUsuario: [],
-      aforo: {}
+      aforo: {},
+      informacionAforo: []
     }
   },
   actions: {
     async agendarAutorizacion(autorizacion: IAgendarAutorizacion): Promise<any> {
       try {
-        const { status, data } = await cencoApi.post("UserData/agendar-solicitud-autorizacion",autorizacion ,  {headers :{
-          'Content-Type': 'multipart/form-data',
-          "Access-Control-Allow-Origin": "*",
-        }});
+        const { status, data } = await cencoApi.post("UserData/agendar-solicitud-autorizacion", autorizacion, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "Access-Control-Allow-Origin": "*",
+          }
+        });
         if (status === 200) {
           this.status = status;
         }
         return this.status
       } catch (error) {
-        
+
         this.status = 200
         return this.status
       }
@@ -44,16 +47,18 @@ export const useUserStore = defineStore('user', {
     async registrarIncidente(incidente: Incidente): Promise<any> {
       try {
 
-        const { status, data } = await cencoApi.post("UserData/registrar-incidente",incidente ,  {headers :{
-          'Content-Type': 'multipart/form-data',
-          "Access-Control-Allow-Origin": "*",
-        }});
+        const { status, data } = await cencoApi.post("UserData/registrar-incidente", incidente, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "Access-Control-Allow-Origin": "*",
+          }
+        });
         if (status === 200) {
           this.status = status;
         }
         return this.status
       } catch (error) {
-        
+
         this.status = 200
         return this.status
       }
@@ -61,135 +66,137 @@ export const useUserStore = defineStore('user', {
     async registrarConducta(conducta: IConducta): Promise<any> {
       try {
 
-        const { status, data } = await cencoApi.post("UserData/registrar-conducta", conducta ,  {headers :{
-          'Content-Type': 'multipart/form-data',
-          "Access-Control-Allow-Origin": "*",
-        }});
+        const { status, data } = await cencoApi.post("UserData/registrar-conducta", conducta, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "Access-Control-Allow-Origin": "*",
+          }
+        });
         if (status === 200) {
           this.status = status;
         }
         return this.status
       } catch (error) {
-        
+
         this.status = 200
         return this.status
       }
     },
-    async obtenerSolicitudesPendientes(idUsuario:number){
+    async obtenerSolicitudesPendientes(idUsuario: number) {
       try {
-        await cencoApi.get("userData/obtener-solicitudes-pendientes/"+idUsuario).then((result) => {
-          if (result.data.data != ""){
+        await cencoApi.get("userData/obtener-solicitudes-pendientes/" + idUsuario).then((result) => {
+          if (result.data.data != "") {
             const statusC = result.status
             this.solicitudesPendientes = JSON.parse(result.data.data)
-            return {statusC, result}
-          }else{
+            return { statusC, result }
+          } else {
             this.solicitudesPendientes = []
           }
         }).catch((error) => {
           console.log(error)
-        })    
+        })
       } catch (error) {
         console.log(error)
         return error
       }
     },
-    async obtenerIncidentes(){
+    async obtenerIncidentes() {
       try {
         await cencoApi.get("UserData/obtener-incidentes").then((result) => {
-          if (result.data.data != ""){
+          if (result.data.data != "") {
             const statusC = result.status
             this.incidentes = JSON.parse(result.data.data)
-            return {statusC, result}
-          }else{
+            return { statusC, result }
+          } else {
             this.incidentes = []
           }
         }).catch((error) => {
           console.log(error)
-        })    
+        })
       } catch (error) {
         console.log(error)
         return error
       }
     },
-    async obtenerConductas(){
+    async obtenerConductas() {
       try {
         await cencoApi.get("UserData/obtener-conductas").then((result) => {
-          if (result.data.data != ""){
+          if (result.data.data != "") {
             const statusC = result.status
             this.conductas = JSON.parse(result.data.data)
-            return {statusC, result}
-          }else{
+            return { statusC, result }
+          } else {
             this.conductas = []
           }
         }).catch((error) => {
           console.log(error)
-        })    
+        })
       } catch (error) {
         console.log(error)
         return error
       }
     },
-    async obtenerSolicitudesAprobadas(idUsuario:number){
+    async obtenerSolicitudesAprobadas(idUsuario: number) {
       try {
-        await cencoApi.get("userData/obtener-solicitudes-aprobadas/"+idUsuario).then((result) => {
-          if (result.data.data != ""){
+        await cencoApi.get("userData/obtener-solicitudes-aprobadas/" + idUsuario).then((result) => {
+          if (result.data.data != "") {
             const statusC = result.status
             this.solicitudesAprobadas = JSON.parse(result.data.data)
-            return {statusC, result}
-          }else{
+            return { statusC, result }
+          } else {
             this.solicitudesAprobadas = []
           }
         }).catch((error) => {
           console.log(error)
-        })    
+        })
       } catch (error) {
         console.log(error)
         return error
       }
     },
-    async obtenerSolicitudesRechazadas(idUsuario:number){
+    async obtenerSolicitudesRechazadas(idUsuario: number) {
       try {
-        await cencoApi.get("userData/obtener-solicitudes-rechazadas/"+idUsuario).then((result) => {
-          if (result.data.data != ""){
+        await cencoApi.get("userData/obtener-solicitudes-rechazadas/" + idUsuario).then((result) => {
+          if (result.data.data != "") {
             const statusC = result.status
             this.solicitudesRechazadas = JSON.parse(result.data.data)
-            return {statusC, result}
-          }else{
+            return { statusC, result }
+          } else {
             this.solicitudesRechazadas = []
           }
         }).catch((error) => {
           console.log(error)
-        })    
+        })
       } catch (error) {
         console.log(error)
         return error
       }
     },
-    async filtrarRegistrosIncidentes(dato: string){
-     const result = this.incidentes.filter((item) => {
-        return item.nombres.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) || 
-        item.apellidos.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) || 
-        item.fecha.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) || 
-        item.identificacion.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) 
+    async filtrarRegistrosIncidentes(dato: string) {
+      const result = this.incidentes.filter((item) => {
+        return item.nombres.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) ||
+          item.apellidos.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) ||
+          item.fecha.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) ||
+          item.identificacion.toLocaleLowerCase().includes(dato.toLocaleLowerCase())
       });
       this.incidentes = result
       return result
     },
-    async filtrarRegistrosConductas(dato: string){
+    async filtrarRegistrosConductas(dato: string) {
       const result = this.conductas.filter((item) => {
-         return item.nombres.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) || 
-         item.apellidos.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) || 
-         item.fecha.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) || 
-         item.identificacion.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) 
-       });
-       this.conductas = result
-       return result
-     },
-    async obtenerSolicitud(idSolicitud: number){
+        return item.nombres.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) ||
+          item.apellidos.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) ||
+          item.fecha.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) ||
+          item.identificacion.toLocaleLowerCase().includes(dato.toLocaleLowerCase())
+      });
+      this.conductas = result
+      return result
+    },
+    async obtenerSolicitud(idSolicitud: number) {
       try {
-        
-        const res = await cencoApi.get("userData/obtener-solicitud/"+idSolicitud)
-        if(res != null){
+
+        const res = await cencoApi.get("userData/obtener-solicitud/" + idSolicitud)
+        if (res != null) {
           const statusC = res.status
           const data = JSON.parse(res.data.data.usuario)
           let element = null
@@ -198,17 +205,17 @@ export const useUserStore = defineStore('user', {
           }
           this.solicitud = element
           this.documentos = JSON.parse(res.data.data.documentos)
-          return {statusC, res}
+          return { statusC, res }
         }
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     },
-    async obtenerIncidente(idIncidente: number){
-      try {       
-        const res = await cencoApi.get("userData/obtener-incidente/"+idIncidente)
-        if(res != null){
+    async obtenerIncidente(idIncidente: number) {
+      try {
+        const res = await cencoApi.get("userData/obtener-incidente/" + idIncidente)
+        if (res != null) {
           const statusC = res.status
           const data = JSON.parse(res.data.data.incidente)
           let element = null
@@ -216,91 +223,97 @@ export const useUserStore = defineStore('user', {
             element = data[index];
           }
           this.incidente = element
-          return {statusC, res}
+          return { statusC, res }
         }
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     },
-    async aprobarSolicitud(idSolicitud:number){
+    async aprobarSolicitud(idSolicitud: number) {
       try {
-        const result = await cencoApi.post("userData/aprobar-solicitud/"+idSolicitud)
+        const result = await cencoApi.post("userData/aprobar-solicitud/" + idSolicitud)
         const data = JSON.parse(result.data.data.respuestaApi)
         const respuestaApi = data[0]
         return respuestaApi
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     },
-    async generarIngreso(idSolicitud:number){
+    async generarIngreso(ingreso: IGenerarIngreso) {
+      console.log(ingreso)
       try {
-        const result = await cencoApi.post("userData/generar-ingreso/"+idSolicitud)
+        const result = await cencoApi.post("userData/generar-ingreso", ingreso, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "Access-Control-Allow-Origin": "*",
+          }
+        })
         const data = JSON.parse(result.data.data.respuestaApi)
         const respuestaApi = data[0]
         return respuestaApi
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     },
-    async rechazarSolicitud(idSolicitud:number){
-      try {       
-        const result = await cencoApi.post("userData/rechazar-solicitud/"+idSolicitud)
+    async rechazarSolicitud(idSolicitud: number) {
+      try {
+        const result = await cencoApi.post("userData/rechazar-solicitud/" + idSolicitud)
         const data = JSON.parse(result.data.data.respuestaApi)
         const respuestaApi = data[0]
-        return respuestaApi 
+        return respuestaApi
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     },
-    async enviarCorreo(correo:any){
-      try {   
+    async enviarCorreo(correo: any) {
+      try {
         const result = await cencoApi.post("userData/enviar-correo/", correo)
         return result
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     },
-    async obtenerDatosSolicitante(idSolicitante:number){
+    async obtenerDatosSolicitante(idSolicitante: number) {
       try {
-        await cencoApi.get("userData/obtener-datos-solicitante/"+idSolicitante).then((result) => {
-          if (result.data.data != ""){
+        await cencoApi.get("userData/obtener-datos-solicitante/" + idSolicitante).then((result) => {
+          if (result.data.data != "") {
             const statusC = result.status
             const respuestaApi = JSON.parse(result.data.data)
             this.datosSolicitante = respuestaApi[0]
             console.log(this.datosSolicitante)
-            return {statusC, result}
-          }else{
+            return { statusC, result }
+          } else {
             this.datosSolicitante = {}
           }
         }).catch((error) => {
           console.log(error)
-        })    
+        })
       } catch (error) {
         console.log(error)
         return error
       }
     },
-    async obtenerConductasUsuario(idUsuario: number){
-      try {       
-        const res = await cencoApi.get("userData/obtener-conductas-usuario/"+idUsuario)
-        if(res != null){
+    async obtenerConductasUsuario(idUsuario: number) {
+      try {
+        const res = await cencoApi.get("userData/obtener-conductas-usuario/" + idUsuario)
+        if (res != null) {
           const statusC = res.status
           console.log(res)
           const data = JSON.parse(res.data.data.conductas)
           this.conductasUsuario = data
-          return {statusC, res}
+          return { statusC, res }
         }
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     },
-    async obtenerAforo(){
+    async obtenerAforo() {
       try {
         const result = await cencoApi.get("userData/aforo")
         const data = JSON.parse(result.data.data.respuestaApi)
@@ -308,29 +321,41 @@ export const useUserStore = defineStore('user', {
         this.aforo = respuestaApi
         return respuestaApi
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     },
-    async obtenerSolicitudesUsuario(idUsuario: number){
+    async obtenerInformacionAforo(idUsuario: number) {
+      try {
+        const result = await cencoApi.get("userData/informacion-aforo/" + idUsuario)
+        const data = JSON.parse(result.data.data.respuestaApi)
+        const respuestaApi = data[0]
+        this.informacionAforo = data
+        return respuestaApi
+      } catch (error) {
+        console.log("Error: " + error)
+        return error
+      }
+    },
+    async obtenerSolicitudesUsuario(idUsuario: number) {
       console.log(idUsuario)
-      try {       
-        const res = await cencoApi.get("userData/obtener-solicitudes-por-usuario/"+idUsuario)
+      try {
+        const res = await cencoApi.get("userData/obtener-solicitudes-por-usuario/" + idUsuario)
         console.log(res)
-        if(res != null){
+        if (res != null) {
           const statusC = res.status
           console.log(res)
           const data = JSON.parse(res.data.data)
           this.solicitudesUsuario = data
-          return {statusC, res}
+          return { statusC, res }
         }
       } catch (error) {
-        console.log( "Error: "+error)
+        console.log("Error: " + error)
         return error
       }
     }
   },
-  getters:{
+  getters: {
     getSolicitudesPendientes: (state) => state.solicitudesPendientes,
     getSolicitudesAprobadas: (state) => state.solicitudesAprobadas,
     getIncidentes: (state) => state.incidentes,
@@ -347,6 +372,7 @@ export const useUserStore = defineStore('user', {
     getDatosSolicitante: (state) => state.datosSolicitante,
     getConductasUsuario: (state) => state.conductasUsuario,
     getSolicitudesUsuario: (state) => state.solicitudesUsuario,
-    getAforo: (state) => state.aforo
+    getAforo: (state) => state.aforo,
+    getInformacionAfoto: (state) => state.informacionAforo
   }
 })

@@ -24,7 +24,7 @@
                         <div class="row" v-if="soli.idEstadoSolicitud == 2">
                             <div class="col-md-6">
                                 <button class="btn btn-primary p-2 m-1" @click="onGenerarIngreso">
-                                    <font-awesome-icon :icon="['fas', 'check']" /> Generar Ingreso
+                                    <font-awesome-icon :icon="['fas', 'check']" /> Confirmar Ingreso
                                 </button>
                             </div>
                         </div>
@@ -163,6 +163,11 @@ import useUser from '../composables/useUser'
 import DashboardLayout from '@Layouts/DashboardLayout.vue'
 import DatosSolicitante from '@Components/users/DatosSolicitante.vue'
 
+const generarIngresoForm = ref({
+    IdAutorizacion: 0,
+    HoraEntradaReal: ''
+})
+
 const swal = inject('$swal')
 const router = useRouter()
 
@@ -170,7 +175,7 @@ const { useObtenerSolicitud, obtenerSolicitud,
     useObtenerDocumentos, aprobarSolicitud,
     rechazarSolicitud, enviarCorreo,
     obtenerDatosSolicitante, useObtenerDatosSolicitante,
-    obtenerConductasUsuario, useObtenerConductasUsuario, 
+    obtenerConductasUsuario, useObtenerConductasUsuario,
     generarIngreso } = useUser()
 const { idSolicitud } = defineProps(['idSolicitud'])
 
@@ -199,7 +204,7 @@ const onAprobarSolicitud = async () => {
         if (respuestaApi.statusCode === 200) {
             router.push({ name: 'validar-autorizaciones' })
             swal("Success", respuestaApi.msg, 'success')
-            await enviarCorreo(correoAprobacion)
+            //await enviarCorreo(correoAprobacion)
         } else {
             swal('Error', respuestaApi.msg, 'error')
         }
@@ -212,11 +217,15 @@ const onAprobarSolicitud = async () => {
 
 const onGenerarIngreso = async () => {
     try {
-        const respuestaApi = await generarIngreso(idSolicitud)
+        let fecha = new Date()
+        const horaEntradaReal = fecha.getHours() + ':' + fecha.getMinutes()
+        generarIngresoForm.value.IdAutorizacion = idSolicitud
+        generarIngresoForm.value.HoraEntradaReal = horaEntradaReal
+        const respuestaApi = await generarIngreso(generarIngresoForm.value)
         if (respuestaApi.statusCode === 200) {
             router.push({ name: 'validar-autorizaciones' })
             swal("Success", respuestaApi.msg, 'success')
-            await enviarCorreo(correoAprobacion)
+            //await enviarCorreo(correoAprobacion)
         } else {
             swal('Error', respuestaApi.msg, 'error')
         }

@@ -1,4 +1,4 @@
-import type { IAgendarAutorizacion } from "@/models/autorizacion.model";
+import type { IAgendarAutorizacion, IGenerarIngreso } from "@/models/autorizacion.model";
 import type { Incidente } from "@/models/incidente.model";
 import type { IConducta } from "@/models/conducta.model";
 import { useUserStore } from "@/store/userStore";
@@ -33,19 +33,19 @@ const useUser = () => {
         return result
     }
 
-    const aprobarSolicitud = async (idSolicitud:any) => {
+    const aprobarSolicitud = async (idSolicitud: any) => {
         const result = await userStore.aprobarSolicitud(idSolicitud);
         return result
     }
 
-    const rechazarSolicitud = async (idSolicitud:any) => {
+    const rechazarSolicitud = async (idSolicitud: any) => {
         const result = await userStore.rechazarSolicitud(idSolicitud);
         return result
     }
 
-    const enviarCorreo =async (correo:any) => {
-        const result = await userStore.enviarCorreo(correo)   ;
-        return result 
+    const enviarCorreo = async (correo: any) => {
+        const result = await userStore.enviarCorreo(correo);
+        return result
     }
 
     const registrarIncidente = async (incidente: Incidente) => {
@@ -77,7 +77,7 @@ const useUser = () => {
         const result = await userStore.filtrarRegistrosConductas(dato)
         return result
     }
-    
+
     const obtenerIncidente = async (idIncidente: number) => {
         const result = await userStore.obtenerIncidente(idIncidente)
         return result
@@ -87,7 +87,7 @@ const useUser = () => {
         const result = await userStore.obtenerDatosSolicitante(idSolicitante)
         return result
     }
-    
+
     const obtenerConductasUsuario = async (idUsuario: number) => {
         const result = await userStore.obtenerConductasUsuario(idUsuario)
         return result
@@ -98,8 +98,8 @@ const useUser = () => {
         return result
     }
 
-    const generarIngreso = async (idSolicitud: number) => {
-        const result = await userStore.generarIngreso(idSolicitud)
+    const generarIngreso = async (ingreso: IGenerarIngreso) => {
+        const result = await userStore.generarIngreso(ingreso)
         return result
     }
 
@@ -108,7 +108,10 @@ const useUser = () => {
         return result
     }
 
-
+    const obtenerInformacionAforo = async (idUsuario: number) => {
+        const result = await userStore.obtenerInformacionAforo(idUsuario)
+        return result
+    }
     return {
         //methods
         agendarAutorizacion,
@@ -131,6 +134,7 @@ const useUser = () => {
         obtenerSolicitudesUsuario,
         generarIngreso,
         obtenerAforo,
+        obtenerInformacionAforo,
 
         //getters
         useObtenerSolicitudesPendientes: computed(() => userStore.getSolicitudesPendientes),
@@ -149,7 +153,8 @@ const useUser = () => {
         useObtenerDatosSolicitante: computed(() => userStore.getDatosSolicitante),
         useObtenerConductasUsuario: computed(() => userStore.getConductasUsuario),
         useObtenerSolicitudesUsuario: computed(() => userStore.getSolicitudesUsuario),
-        useObtenerAforo: computed(() => userStore.getAforo)
+        useObtenerAforo: computed(() => userStore.getAforo),
+        useObtenerInformacionAforo: computed(() => userStore.getInformacionAfoto)
     };
 }
 

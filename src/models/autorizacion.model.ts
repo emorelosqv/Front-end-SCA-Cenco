@@ -52,3 +52,7 @@ export interface IAgendarAutorizacion {
     Descripcion: string;
 }
 
+export interface IGenerarIngreso {
+    IdAutorizacion: number,
+    HoraEntradaReal: string
+}

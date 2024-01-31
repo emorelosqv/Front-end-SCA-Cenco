@@ -21,6 +21,19 @@
                             aria-controls="rechazadas-tab-pane" aria-selected="false">Solicitudes
                             Rechazadas</button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button @click="refrescarSolicitudesRechazadas" class="nav-link" id="en-curso-tab"
+                            data-bs-toggle="tab" data-bs-target="#en-curso-tab-pane" type="button" role="tab"
+                            aria-controls="en-curso-tab-pane" aria-selected="false">Solicitudes
+                            En Curso</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button @click="refrescarSolicitudesRechazadas" class="nav-link" id="finalizadas-tab"
+                            data-bs-toggle="tab" data-bs-target="#finalizadas-tab-pane" type="button" role="tab"
+                            aria-controls="finalizadas-tab-pane" aria-selected="false">Solicitudes
+                            Finalizadas</button>
+
+                        </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="pendientes-tab-pane" role="tabpanel"
@@ -103,6 +116,80 @@
                             <div class="row">
                                 <div class="row" v-if="sinSolicitudesRechazadas">
                                     <h2>No hay solicitudes rechazadas por validar</h2>
+                                </div>
+                                <div class="row" v-else>
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">Nro.</th>
+                                                <th scope="col">Identificación</th>
+                                                <th scope="col">Nombre completo del solicitante</th>
+                                                <th scope="col">Correo electrónico</th>
+                                                <th scope="col">Visualizar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="solicitud in solicitudesRechazadas" :key="solicitud.id">
+                                                <th scope="row">{{ solicitud.id }}</th>
+                                                <td>{{ solicitud.identificacion }}</td>
+                                                <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                                <td>{{ solicitud.correo }}</td>
+                                                <td>
+                                                    <router-link
+                                                        :to="{ name: 'ver-solicitud', params: { idSolicitud: solicitud.id } }">
+                                                        <font-awesome-icon :icon="['fas', 'eye']" />
+                                                    </router-link>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="en-curso-tab-pane" role="tabpanel" aria-labelledby="en-curso-tab"
+                        tabindex="0">
+                        <div class="container">
+                            <div class="row">
+                                <div class="row" v-if="sinSolicitudesRechazadas">
+                                    <h2>No hay solicitudes en curso por validar</h2>
+                                </div>
+                                <div class="row" v-else>
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">Nro.</th>
+                                                <th scope="col">Identificación</th>
+                                                <th scope="col">Nombre completo del solicitante</th>
+                                                <th scope="col">Correo electrónico</th>
+                                                <th scope="col">Visualizar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="solicitud in solicitudesRechazadas" :key="solicitud.id">
+                                                <th scope="row">{{ solicitud.id }}</th>
+                                                <td>{{ solicitud.identificacion }}</td>
+                                                <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                                <td>{{ solicitud.correo }}</td>
+                                                <td>
+                                                    <router-link
+                                                        :to="{ name: 'ver-solicitud', params: { idSolicitud: solicitud.id } }">
+                                                        <font-awesome-icon :icon="['fas', 'eye']" />
+                                                    </router-link>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="finalizadas-tab-pane" role="tabpanel" aria-labelledby="finalizadas-tab"
+                        tabindex="0">
+                        <div class="container">
+                            <div class="row">
+                                <div class="row" v-if="sinSolicitudesRechazadas">
+                                    <h2>No hay solicitudes finalizadas por validar</h2>
                                 </div>
                                 <div class="row" v-else>
                                     <table class="table">
@@ -231,7 +318,10 @@ onUpdated(() => {
 <style scoped>
 #pendientes-tab,
 #aprobadas-tab,
-#rechazadas-tab {
+#rechazadas-tab, 
+#en-curso-tab,
+#finalizadas-tab {
     color: #0072bc;
+    /*color: #f7941d;*/
 }
 </style>

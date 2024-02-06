@@ -33,7 +33,6 @@ const { obtenerSolicitudesUsuario, useObtenerSolicitudesUsuario } = useUser()
 
 onBeforeMount(() => {
     const id = localStorage.getItem('identifiacionUsuario')
-    console.log(id)
     obtenerSolicitudesUsuario(id)
 })
 

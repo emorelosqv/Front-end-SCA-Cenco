@@ -9,27 +9,27 @@
                     <form class="card-body" @submit.prevent="agendarAutorizacionEvent">
                         <div class="row">
                             <div class="col-md-5">
-                                <div class="mb-3">
+                                <!-- <div class="mb-3">
                                     <input type="text" class="form-control" id="inputNombresAgendarAutorizacion"
                                         aria-describedby="inputNombresAgendar" required minlength="10" placeholder="Nombres"
                                         v-model="agendarAutorizacionForm.Nombres" />
-                                </div>
+                                </div> -->
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" id="inputApellidosAgendarAutorizacion"
-                                        aria-describedby="inputApellidosAgendarAutorizacion" required
-                                        placeholder="Apellidos" v-model="agendarAutorizacionForm.Apellidos" />
+                                    <input type="text" class="form-control" id="inputNombreCompletoAgendarAutorizacion"
+                                        aria-describedby="inputNombreCompletoAgendarAutorizacion" required
+                                        disabled="true" :value="nombreUsuario" />
 
                                 </div>
                                 <div class="mb-3">
                                     <input type="number" class="form-control" id="inputIdentificacionAgendarAutorizacion"
                                         aria-describedby="inputIdentificacionAgendarAutorizacion" required
-                                        placeholder="Identificación" v-model="agendarAutorizacionForm.Identificacion" />
+                                         disabled="true"  :value="identificacionUsuario"  />
 
                                 </div>
                                 <div class="mb-3">
                                     <input type="email" class="form-control" id="inputEmailAgendarAutorizacion"
                                         aria-describedby="inputEmailAgendarAutorizacion" required
-                                        placeholder="ejemplo@ejemplo.com" v-model="agendarAutorizacionForm.Correo" />
+                                        disabled="true" :value="correoUsuario" />
                                 </div>
                                 <div class="mb-3">
                                     <div class="row">
@@ -78,16 +78,17 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-check form-check-inline">
+                                                
                                                 <input class="form-check-input" type="radio" name="ActivosDeSalidaOptions"
                                                     id="ActivosDeSalidaOptions1" value="1" required
                                                     v-model="agendarAutorizacionForm.ActivosSalida">
-                                                <label class="form-check-label" for="ActivosDeSalidaOptions1">Sí</label>
+                                                    <label class="form-check-label" for="">Sí</label>
                                             </div>
                                             <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="ActivosDeSalidaOptions2">No</label>
                                                 <input class="form-check-input" type="radio" name="ActivosDeSalidaOptions"
                                                     id="ActivosDeSalidaOptions2" value="0"
                                                     v-model="agendarAutorizacionForm.ActivosSalida">
-                                                <label class="form-check-label" for="ActivosDeSalidaOptions2">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -99,17 +100,17 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="diasVisitaOptions"
-                                                    id="diasVisitaOptions1" value="1" @click="mostrarFecha" required
-                                                    v-model="agendarAutorizacionForm.UnSoloDia">
                                                 <label id="opciones" class="form-check-label"
                                                     for="diasVisitaOptions1">Sí</label>
+                                                    <input class="form-check-input" type="radio" name="diasVisitaOptions"
+                                                    id="diasVisitaOptions1" value="1" @click="mostrarFecha" required
+                                                    v-model="agendarAutorizacionForm.UnSoloDia">
                                             </div>
                                             <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="diasVisitaOptions2">No</label>
                                                 <input class="form-check-input" type="radio" name="diasVisitaOptions"
                                                     id="diasVisitaOptions2" value="0" @click="mostrarRangoDeFecha"
                                                     v-model="agendarAutorizacionForm.UnSoloDia">
-                                                <label class="form-check-label" for="diasVisitaOptions2">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -249,15 +250,25 @@
 </template>
 
 <script setup>
-import { inject, onMounted, ref } from 'vue'
+import { inject, onMounted, ref, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import useUser from '../composables/useUser'
 import DashboardLayout from '@Layouts/DashboardLayout.vue'
 import useConfig from '@Modules/config/composables/useConfig'
 
+let identificacionUsuario = ''
+let nombreUsuario = ''
+let correoUsuario = ''
+
 const { obtenerDepartamentos, useGetDepartamentos,
     obtenerMunicipios, useGetMunicipios,
     obtenerTiendas, useGetTiendas } = useConfig()
+
+onBeforeMount(() => {
+    identificacionUsuario = localStorage.getItem("identifiacionUsuario")
+    nombreUsuario = localStorage.getItem("nombreCompleto")
+    correoUsuario = localStorage.getItem("correoElectronico")
+})
 
 onMounted(() => {
     obtenerDepartamentos()
@@ -279,16 +290,15 @@ function changeMunicipio() {
 const tiendas = useGetTiendas
 
 const agendarAutorizacionForm = ref({
-    Nombres: '',
-    Apellidos: '',
+    NombreCompleto: '',
     Identificacion: '',
     Correo: '',
     TieneHerramientas: '',
     ActivosSalida: '',
     UnSoloDia: '',
-    FechaAutorizacion: '',
-    RangoFechaInicialAutorizacion: '',
-    RangoFechaFinalAutorizacion: '',
+    FechaAutorizacion: '0000-00-00',
+    RangoFechaInicialAutorizacion: '0000-00-00',
+    RangoFechaFinalAutorizacion: '0000-00-00',
     HoraEntradaAutorizacion: '',
     HoraSalidaAutorizacion: '',
     DocumentoArl: null,
@@ -365,6 +375,9 @@ function changeFileManipulacionAlimentos() {
 
 const agendarAutorizacionEvent = async () => {
     try {
+        agendarAutorizacionForm.value.NombreCompleto = document.getElementById("inputNombreCompletoAgendarAutorizacion").value
+        agendarAutorizacionForm.value.Identificacion = document.getElementById("inputIdentificacionAgendarAutorizacion").value
+        agendarAutorizacionForm.value.Correo= document.getElementById("inputEmailAgendarAutorizacion").value
         const status = await agendarAutorizacion(agendarAutorizacionForm.value)
         if (status === 200) {
             router.push({ name: 'dashboard' })

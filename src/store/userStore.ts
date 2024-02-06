@@ -1,5 +1,5 @@
 import cencoApi from '@/services/cencoApi';
-import type { IAgendarAutorizacion, IGenerarIngreso } from '@/models/autorizacion.model';
+import type { IAgendarAutorizacion, IGenerarIngreso, IGenerarSalida } from '@/models/autorizacion.model';
 import type { Incidente } from '@/models/incidente.model';
 import type { IConducta } from '@/models/conducta.model';
 import { defineStore } from 'pinia'
@@ -11,6 +11,8 @@ export const useUserStore = defineStore('user', {
       solicitudesPendientes: [],
       solicitudesAprobadas: [],
       solicitudesRechazadas: [],
+      solicitudesFinalizadas : [],
+      solicitudesEnCurso: [],
       incidentes: [] as Incidente[],
       incidentesFiltrados: [] as Incidente[],
       incidente: {},
@@ -172,6 +174,42 @@ export const useUserStore = defineStore('user', {
         return error
       }
     },
+    async obtenerSolicitudesEnCurso(idUsuario: number) {
+      try {
+        await cencoApi.get("userData/obtener-solicitudes-en-curso/" + idUsuario).then((result) => {
+          if (result.data.data != "") {
+            const statusC = result.status
+            this.solicitudesEnCurso = JSON.parse(result.data.data)
+            return { statusC, result }
+          } else {
+            this.solicitudesEnCurso = []
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
+    async obtenerSolicitudesFinalizadas(idUsuario: number) {
+      try {
+        await cencoApi.get("userData/obtener-solicitudes-finalizadas/" + idUsuario).then((result) => {
+          if (result.data.data != "") {
+            const statusC = result.status
+            this.solicitudesFinalizadas = JSON.parse(result.data.data)
+            return { statusC, result }
+          } else {
+            this.solicitudesFinalizadas = []
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
     async filtrarRegistrosIncidentes(dato: string) {
       const result = this.incidentes.filter((item) => {
         return item.nombres.toLocaleLowerCase().includes(dato.toLocaleLowerCase()) ||
@@ -242,9 +280,24 @@ export const useUserStore = defineStore('user', {
       }
     },
     async generarIngreso(ingreso: IGenerarIngreso) {
-      console.log(ingreso)
       try {
         const result = await cencoApi.post("userData/generar-ingreso", ingreso, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "Access-Control-Allow-Origin": "*",
+          }
+        })
+        const data = JSON.parse(result.data.data.respuestaApi)
+        const respuestaApi = data[0]
+        return respuestaApi
+      } catch (error) {
+        console.log("Error: " + error)
+        return error
+      }
+    },
+    async generarSalida(salida: IGenerarSalida) {
+      try {
+        const result = await cencoApi.post("userData/finalizar-ingreso", salida, {
           headers: {
             'Content-Type': 'multipart/form-data',
             "Access-Control-Allow-Origin": "*",
@@ -285,7 +338,6 @@ export const useUserStore = defineStore('user', {
             const statusC = result.status
             const respuestaApi = JSON.parse(result.data.data)
             this.datosSolicitante = respuestaApi[0]
-            console.log(this.datosSolicitante)
             return { statusC, result }
           } else {
             this.datosSolicitante = {}
@@ -303,7 +355,6 @@ export const useUserStore = defineStore('user', {
         const res = await cencoApi.get("userData/obtener-conductas-usuario/" + idUsuario)
         if (res != null) {
           const statusC = res.status
-          console.log(res)
           const data = JSON.parse(res.data.data.conductas)
           this.conductasUsuario = data
           return { statusC, res }
@@ -338,13 +389,10 @@ export const useUserStore = defineStore('user', {
       }
     },
     async obtenerSolicitudesUsuario(idUsuario: number) {
-      console.log(idUsuario)
       try {
         const res = await cencoApi.get("userData/obtener-solicitudes-por-usuario/" + idUsuario)
-        console.log(res)
         if (res != null) {
           const statusC = res.status
-          console.log(res)
           const data = JSON.parse(res.data.data)
           this.solicitudesUsuario = data
           return { statusC, res }
@@ -358,15 +406,19 @@ export const useUserStore = defineStore('user', {
   getters: {
     getSolicitudesPendientes: (state) => state.solicitudesPendientes,
     getSolicitudesAprobadas: (state) => state.solicitudesAprobadas,
+    getSolicitudesRechazadas: (state) => state.solicitudesRechazadas,
+    getSolicitudesEnCurso: (state) => state.solicitudesEnCurso,
+    getSolicitudesFinalizadas: (state) => state.solicitudesFinalizadas,
     getIncidentes: (state) => state.incidentes,
     getConductas: (state) => state.conductas,
-    getSolicitudesRechazadas: (state) => state.solicitudesRechazadas,
     getSolicitud: (state) => state.solicitud,
     getIncidente: (state) => state.incidente,
     getDocumentos: (state) => state.documentos,
     getValorPendientes: (state) => state.solicitudesPendientes.length,
     getValorAprobadas: (state) => state.solicitudesAprobadas.length,
     getValorRechazadas: (state) => state.solicitudesRechazadas.length,
+    getValorEnCurso: (state) => state.solicitudesEnCurso.length,
+    getValorFinalizadas: (state) => state.solicitudesFinalizadas.length,
     getIncidentesFiltrados: (state) => state.incidentesFiltrados,
     getConductasFiltradas: (state) => state.conductasFiltradas,
     getDatosSolicitante: (state) => state.datosSolicitante,

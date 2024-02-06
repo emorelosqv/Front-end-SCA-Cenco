@@ -20,9 +20,6 @@
 <script setup>
 
 const props = defineProps(['Solicitante'])
-console.log('*************' + props)
-
-
 const datos = props.Solicitante
 
 </script>

@@ -28,6 +28,13 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="row" v-if="soli.idEstadoSolicitud == 4">
+                            <div class="col-md-6">
+                                <button class="btn btn-danger p-2 m-1" @click="onFinalizarIngreso">
+                                    <font-awesome-icon :icon="['fas', 'check']" /> Finalizar Ingreso
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -168,6 +175,11 @@ const generarIngresoForm = ref({
     HoraEntradaReal: ''
 })
 
+const generarSalidaForm = ref({
+    IdAutorizacion: 0,
+    HoraSalidaReal: ''
+})
+
 const swal = inject('$swal')
 const router = useRouter()
 
@@ -176,7 +188,7 @@ const { useObtenerSolicitud, obtenerSolicitud,
     rechazarSolicitud, enviarCorreo,
     obtenerDatosSolicitante, useObtenerDatosSolicitante,
     obtenerConductasUsuario, useObtenerConductasUsuario,
-    generarIngreso } = useUser()
+    generarIngreso, generarSalida } = useUser()
 const { idSolicitud } = defineProps(['idSolicitud'])
 
 onBeforeMount(() => {
@@ -222,6 +234,26 @@ const onGenerarIngreso = async () => {
         generarIngresoForm.value.IdAutorizacion = idSolicitud
         generarIngresoForm.value.HoraEntradaReal = horaEntradaReal
         const respuestaApi = await generarIngreso(generarIngresoForm.value)
+        if (respuestaApi.statusCode === 200) {
+            router.push({ name: 'validar-autorizaciones' })
+            swal("Success", respuestaApi.msg, 'success')
+            //await enviarCorreo(correoAprobacion)
+        } else {
+            swal('Error', respuestaApi.msg, 'error')
+        }
+    } catch (error) {
+        console.log(error)
+        swal("Error", "Ha ocurrido un error", 'error')
+    }
+}
+
+const onFinalizarIngreso = async () => {
+    try {
+        let fecha = new Date()
+        const horaSalidaReal = fecha.getHours() + ':' + fecha.getMinutes()
+        generarSalidaForm.value.IdAutorizacion = idSolicitud
+        generarSalidaForm.value.HoraSalidaReal = horaSalidaReal
+        const respuestaApi = await generarSalida(generarSalidaForm.value)
         if (respuestaApi.statusCode === 200) {
             router.push({ name: 'validar-autorizaciones' })
             swal("Success", respuestaApi.msg, 'success')

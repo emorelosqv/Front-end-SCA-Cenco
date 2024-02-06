@@ -22,13 +22,13 @@
                             Rechazadas</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button @click="refrescarSolicitudesRechazadas" class="nav-link" id="en-curso-tab"
+                        <button @click="refrescarSolicitudesEnCurso" class="nav-link" id="en-curso-tab"
                             data-bs-toggle="tab" data-bs-target="#en-curso-tab-pane" type="button" role="tab"
                             aria-controls="en-curso-tab-pane" aria-selected="false">Solicitudes
                             En Curso</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button @click="refrescarSolicitudesRechazadas" class="nav-link" id="finalizadas-tab"
+                        <button @click="refrescarSolicitudesFinalizadas" class="nav-link" id="finalizadas-tab"
                             data-bs-toggle="tab" data-bs-target="#finalizadas-tab-pane" type="button" role="tab"
                             aria-controls="finalizadas-tab-pane" aria-selected="false">Solicitudes
                             Finalizadas</button>
@@ -58,7 +58,7 @@
                                             <tr v-for="solicitud in solicitudesPendientes" :key="solicitud.id">
                                                 <th scope="row">{{ solicitud.id }}</th>
                                                 <td>{{ solicitud.identificacion }}</td>
-                                                <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                                <td>{{ solicitud.nombreCompleto }}</td>
                                                 <td>{{ solicitud.correo }}</td>
                                                 <td>
                                                     <router-link
@@ -95,7 +95,7 @@
                                             <tr v-for="solicitud in solicitudesAprobadas" :key="solicitud.id">
                                                 <th scope="row">{{ solicitud.id }}</th>
                                                 <td>{{ solicitud.identificacion }}</td>
-                                                <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                                <td>{{ solicitud.nombreCompleto }}</td>
                                                 <td>{{ solicitud.correo }}</td>
                                                 <td>
                                                     <router-link
@@ -132,7 +132,7 @@
                                             <tr v-for="solicitud in solicitudesRechazadas" :key="solicitud.id">
                                                 <th scope="row">{{ solicitud.id }}</th>
                                                 <td>{{ solicitud.identificacion }}</td>
-                                                <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                                <td>{{ solicitud.nombreCompleto }}</td>
                                                 <td>{{ solicitud.correo }}</td>
                                                 <td>
                                                     <router-link
@@ -166,10 +166,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="solicitud in solicitudesRechazadas" :key="solicitud.id">
+                                            <tr v-for="solicitud in solicitudesEnCurso" :key="solicitud.id">
                                                 <th scope="row">{{ solicitud.id }}</th>
                                                 <td>{{ solicitud.identificacion }}</td>
-                                                <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                                <td>{{ solicitud.nombreCompleto }}</td>
                                                 <td>{{ solicitud.correo }}</td>
                                                 <td>
                                                     <router-link
@@ -188,7 +188,7 @@
                         tabindex="0">
                         <div class="container">
                             <div class="row">
-                                <div class="row" v-if="sinSolicitudesRechazadas">
+                                <div class="row" v-if="sinSolicitudesFinalizadas">
                                     <h2>No hay solicitudes finalizadas por validar</h2>
                                 </div>
                                 <div class="row" v-else>
@@ -203,10 +203,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="solicitud in solicitudesRechazadas" :key="solicitud.id">
+                                            <tr v-for="solicitud in solicitudesFinalizadas" :key="solicitud.id">
                                                 <th scope="row">{{ solicitud.id }}</th>
                                                 <td>{{ solicitud.identificacion }}</td>
-                                                <td>{{ solicitud.nombres + " " + solicitud.apellidos }}</td>
+                                                <td>{{ solicitud.nombreCompleto }}</td>
                                                 <td>{{ solicitud.correo }}</td>
                                                 <td>
                                                     <router-link
@@ -238,15 +238,22 @@ const { obtenerSolicitudesPendientes, useObtenerSolicitudesPendientes,
     useObtenerValorPendientes, obtenerSolicitudesAprobadas,
     obtenerSolicitudesRechazadas, useObtenerSolicitudesAprobadas,
     useObtenerSolicitudesRechazadas, useObtenerValorAprobadas,
-    useObtenerValorRechazadas } = useUser()
+    useObtenerValorRechazadas, obtenerSolicitudesEnCurso, 
+    useObtenerSolicitudesEnCurso,  obtenerSolicitudesFinalizadas,
+    useObtenerSolicitudesFinalizadas, useObtenerValorEnCurso,
+    useObtenerValorFinalizadas } = useUser()
 
 let solicitudesPendientes = null
 let solicitudesAprobadas = null
 let solicitudesRechazadas = null
+let solicitudesEnCurso = null
+let solicitudesFinalizadas = null
 
 const sinSolicitudesPendientes = ref(false)
 const sinSolicitudesAprobadas = ref(false)
 const sinSolicitudesRechazadas = ref(false)
+const sinSolicitudesEnCurso = ref(false)
+const sinSolicitudesFinalizadas = ref(false)
 
 onBeforeMount(() => {
     const idUsuario = localStorage.getItem('identifiacionUsuario')
@@ -259,11 +266,18 @@ onBeforeMount(() => {
     obtenerSolicitudesRechazadas(idUsuario)
     solicitudesRechazadas = useObtenerSolicitudesRechazadas
 
+    obtenerSolicitudesEnCurso(idUsuario)
+    solicitudesEnCurso = useObtenerSolicitudesEnCurso
+
+    obtenerSolicitudesFinalizadas(idUsuario)
+    solicitudesFinalizadas = useObtenerSolicitudesFinalizadas
+
 })
 
 const refrescarSolicitudesPendientes = async () => {
     try {
-        obtenerSolicitudesPendientes()
+        const idUsuario = localStorage.getItem('identifiacionUsuario')
+        await obtenerSolicitudesPendientes(idUsuario)
         solicitudesPendientes = useObtenerSolicitudesPendientes
     } catch (error) {
         console.log(error)
@@ -271,7 +285,8 @@ const refrescarSolicitudesPendientes = async () => {
 }
 const refrescarSolicitudesAprobadas = async () => {
     try {
-        obtenerSolicitudesAprobadas()
+        const idUsuario = localStorage.getItem('identifiacionUsuario')
+        await obtenerSolicitudesAprobadas(idUsuario)
         solicitudesAprobadas = useObtenerSolicitudesAprobadas
     } catch (error) {
         console.log(error)
@@ -280,8 +295,29 @@ const refrescarSolicitudesAprobadas = async () => {
 
 const refrescarSolicitudesRechazadas = async () => {
     try {
-        obtenerSolicitudesRechazadas()
+        const idUsuario = localStorage.getItem('identifiacionUsuario')
+        await obtenerSolicitudesRechazadas(idUsuario)
         solicitudesRechazadas = useObtenerSolicitudesRechazadas
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const refrescarSolicitudesEnCurso = async () => {
+    try {
+        const idUsuario = localStorage.getItem('identifiacionUsuario')
+        await obtenerSolicitudesEnCurso(idUsuario)
+        solicitudesEnCurso = useObtenerSolicitudesEnCurso
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const refrescarSolicitudesFinalizadas = async () => {
+    try {
+        const idUsuario = localStorage.getItem('identifiacionUsuario')
+        await obtenerSolicitudesFinalizadas(idUsuario)
+        solicitudesFinalizadas = useObtenerSolicitudesFinalizadas
     } catch (error) {
         console.log(error)
     }
@@ -291,6 +327,8 @@ onUpdated(() => {
     const valorArraySolicitudesPendientes = useObtenerValorPendientes
     const valorArraySolicitudesAprobadas = useObtenerValorAprobadas
     const valorArraySolicitudesRechazadas = useObtenerValorRechazadas
+    const valorArraySolicitudesEnCurso= useObtenerValorEnCurso
+    const valorArraySolicitudesFinalizadas = useObtenerValorFinalizadas
 
     //Validamos la cantidad de solicitudes pendientes
     if (valorArraySolicitudesPendientes.value > 0) {
@@ -312,6 +350,21 @@ onUpdated(() => {
     } else {
         sinSolicitudesRechazadas.value = true
     }
+
+    //Validamos la cantidad de solicitudes en curso
+    if (valorArraySolicitudesEnCurso.value > 0) {
+        sinSolicitudesEnCurso.value = false
+    } else {
+        sinSolicitudesEnCurso.value = true
+    }
+
+    //Validamos la cantidad de solicitudes finalizadas
+    if (valorArraySolicitudesFinalizadas.value > 0) {
+        sinSolcitudesFinalizadas.value = false
+    } else {
+        sinSolcitudesFinalizadas.value = true
+    }
+
 })
 </script>
 

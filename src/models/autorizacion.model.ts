@@ -1,6 +1,5 @@
 interface Autorizacion {
-    Nombres: string;
-    Apellidos: string,
+    NombreCompleto: string;
     Correo: string,
     TieneHeramientas: string,
     ActivosSalida: string,
@@ -55,4 +54,9 @@ export interface IAgendarAutorizacion {
 export interface IGenerarIngreso {
     IdAutorizacion: number,
     HoraEntradaReal: string
+}
+
+export interface IGenerarSalida {
+    IdAutorizacion: number,
+    HoraSalidaReal: string
 }

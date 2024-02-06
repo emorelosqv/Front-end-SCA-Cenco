@@ -1,4 +1,4 @@
-import type { IAgendarAutorizacion, IGenerarIngreso } from "@/models/autorizacion.model";
+import type { IAgendarAutorizacion, IGenerarIngreso, IGenerarSalida} from "@/models/autorizacion.model";
 import type { Incidente } from "@/models/incidente.model";
 import type { IConducta } from "@/models/conducta.model";
 import { useUserStore } from "@/store/userStore";
@@ -25,6 +25,16 @@ const useUser = () => {
 
     const obtenerSolicitudesRechazadas = async (idUsuario: number) => {
         const result = await userStore.obtenerSolicitudesRechazadas(idUsuario);
+        return result
+    }
+
+    const obtenerSolicitudesEnCurso = async (idUsuario: number) => {
+        const result = await userStore.obtenerSolicitudesEnCurso(idUsuario);
+        return result
+    }
+
+    const obtenerSolicitudesFinalizadas = async (idUsuario: number) => {
+        const result = await userStore.obtenerSolicitudesFinalizadas(idUsuario);
         return result
     }
 
@@ -103,6 +113,11 @@ const useUser = () => {
         return result
     }
 
+    const generarSalida = async (salida: IGenerarSalida) => {
+        const result = await userStore.generarSalida(salida)
+        return result
+    }
+
     const obtenerAforo = async () => {
         const result = await userStore.obtenerAforo()
         return result
@@ -118,6 +133,8 @@ const useUser = () => {
         obtenerSolicitudesPendientes,
         obtenerSolicitudesAprobadas,
         obtenerSolicitudesRechazadas,
+        obtenerSolicitudesEnCurso,
+        obtenerSolicitudesFinalizadas,
         obtenerSolicitud,
         aprobarSolicitud,
         rechazarSolicitud,
@@ -133,6 +150,7 @@ const useUser = () => {
         obtenerConductasUsuario,
         obtenerSolicitudesUsuario,
         generarIngreso,
+        generarSalida,
         obtenerAforo,
         obtenerInformacionAforo,
 
@@ -140,6 +158,8 @@ const useUser = () => {
         useObtenerSolicitudesPendientes: computed(() => userStore.getSolicitudesPendientes),
         useObtenerSolicitudesAprobadas: computed(() => userStore.getSolicitudesAprobadas),
         useObtenerSolicitudesRechazadas: computed(() => userStore.getSolicitudesRechazadas),
+        useObtenerSolicitudesEnCurso: computed(() => userStore.getSolicitudesEnCurso),
+        useObtenerSolicitudesFinalizadas: computed(() => userStore.getSolicitudesFinalizadas),
         useObtenerSolicitud: computed(() => userStore.getSolicitud),
         useObtenerDocumentos: computed(() => userStore.getDocumentos),
         useObtenerValorPendientes: computed(() => userStore.getValorPendientes),

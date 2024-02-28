@@ -3,11 +3,14 @@ import axios from 'axios'
 
 const { CENCO_API } = getEnviroments();
 
-
+ 
 const cencoApi = axios.create({
-    baseURL: "https://localhost:7223/api/",
+    baseURL: "https://sistemacontrolacceso.somee.com/api/",
     
 });
+
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+
 cencoApi.interceptors.request.use( (config)=>{
     const token = localStorage.getItem("token") || ""
     config.headers!.Authorization = token;

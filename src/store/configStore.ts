@@ -13,7 +13,11 @@ export const useConfigStore = defineStore('config', {
   actions: {
     async obtenerDepartamentos(){
       try {
-        const result = await cencoApi.get("config/obtener-departamentos")
+        const result = await cencoApi.get("config/obtener-departamentos", {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         this.departamentos = JSON.parse(result.data.data)
         return result.status
       } catch (error) {
@@ -23,7 +27,11 @@ export const useConfigStore = defineStore('config', {
     },
     async obtenerMunicipios(idDepartamento: number){
       try {
-        const result = await cencoApi.get("config/obtener-municipios/"+idDepartamento)
+        const result = await cencoApi.get("config/obtener-municipios/"+idDepartamento, {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         this.municipios = JSON.parse(result.data.data)
         return result.status
       } catch (error) {
@@ -33,7 +41,11 @@ export const useConfigStore = defineStore('config', {
     },
     async obtenerTiendas(idMunicipio: number){
       try {       
-        const result = await cencoApi.get("config/obtener-tiendas/"+idMunicipio)
+        const result = await cencoApi.get("config/obtener-tiendas/"+idMunicipio,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
           this.tiendas = JSON.parse(result.data.data)
           return result.status
       } catch (error) {

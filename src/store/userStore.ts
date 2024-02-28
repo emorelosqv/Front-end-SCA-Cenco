@@ -86,7 +86,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerSolicitudesPendientes(idUsuario: number) {
       try {
-        await cencoApi.get("userData/obtener-solicitudes-pendientes/" + idUsuario).then((result) => {
+        await cencoApi.get("userData/obtener-solicitudes-pendientes/" + idUsuario,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }).then((result) => {
           if (result.data.data != "") {
             const statusC = result.status
             this.solicitudesPendientes = JSON.parse(result.data.data)
@@ -104,7 +108,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerIncidentes() {
       try {
-        await cencoApi.get("UserData/obtener-incidentes").then((result) => {
+        await cencoApi.get("UserData/obtener-incidentes",{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }).then((result) => {
           if (result.data.data != "") {
             const statusC = result.status
             this.incidentes = JSON.parse(result.data.data)
@@ -122,7 +130,12 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerConductas() {
       try {
-        await cencoApi.get("UserData/obtener-conductas").then((result) => {
+        await cencoApi.get("UserData/obtener-conductas",
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }).then((result) => {
           if (result.data.data != "") {
             const statusC = result.status
             this.conductas = JSON.parse(result.data.data)
@@ -140,7 +153,12 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerSolicitudesAprobadas(idUsuario: number) {
       try {
-        await cencoApi.get("userData/obtener-solicitudes-aprobadas/" + idUsuario).then((result) => {
+        await cencoApi.get("userData/obtener-solicitudes-aprobadas/" + idUsuario,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }).then((result) => {
           if (result.data.data != "") {
             const statusC = result.status
             this.solicitudesAprobadas = JSON.parse(result.data.data)
@@ -158,7 +176,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerSolicitudesRechazadas(idUsuario: number) {
       try {
-        await cencoApi.get("userData/obtener-solicitudes-rechazadas/" + idUsuario).then((result) => {
+        await cencoApi.get("userData/obtener-solicitudes-rechazadas/" + idUsuario,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }).then((result) => {
           if (result.data.data != "") {
             const statusC = result.status
             this.solicitudesRechazadas = JSON.parse(result.data.data)
@@ -176,7 +198,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerSolicitudesEnCurso(idUsuario: number) {
       try {
-        await cencoApi.get("userData/obtener-solicitudes-en-curso/" + idUsuario).then((result) => {
+        await cencoApi.get("userData/obtener-solicitudes-en-curso/" + idUsuario,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }).then((result) => {
           if (result.data.data != "") {
             const statusC = result.status
             this.solicitudesEnCurso = JSON.parse(result.data.data)
@@ -194,7 +220,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerSolicitudesFinalizadas(idUsuario: number) {
       try {
-        await cencoApi.get("userData/obtener-solicitudes-finalizadas/" + idUsuario).then((result) => {
+        await cencoApi.get("userData/obtener-solicitudes-finalizadas/" + idUsuario,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }).then((result) => {
           if (result.data.data != "") {
             const statusC = result.status
             this.solicitudesFinalizadas = JSON.parse(result.data.data)
@@ -233,7 +263,11 @@ export const useUserStore = defineStore('user', {
     async obtenerSolicitud(idSolicitud: number) {
       try {
 
-        const res = await cencoApi.get("userData/obtener-solicitud/" + idSolicitud)
+        const res = await cencoApi.get("userData/obtener-solicitud/" + idSolicitud,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         if (res != null) {
           const statusC = res.status
           const data = JSON.parse(res.data.data.usuario)
@@ -252,7 +286,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerIncidente(idIncidente: number) {
       try {
-        const res = await cencoApi.get("userData/obtener-incidente/" + idIncidente)
+        const res = await cencoApi.get("userData/obtener-incidente/" + idIncidente,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         if (res != null) {
           const statusC = res.status
           const data = JSON.parse(res.data.data.incidente)
@@ -270,7 +308,12 @@ export const useUserStore = defineStore('user', {
     },
     async aprobarSolicitud(idSolicitud: number) {
       try {
-        const result = await cencoApi.post("userData/aprobar-solicitud/" + idSolicitud)
+        const result = await cencoApi.post("userData/aprobar-solicitud/" + idSolicitud,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         const data = JSON.parse(result.data.data.respuestaApi)
         const respuestaApi = data[0]
         return respuestaApi
@@ -313,7 +356,11 @@ export const useUserStore = defineStore('user', {
     },
     async rechazarSolicitud(idSolicitud: number) {
       try {
-        const result = await cencoApi.post("userData/rechazar-solicitud/" + idSolicitud)
+        const result = await cencoApi.post("userData/rechazar-solicitud/" + idSolicitud,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         const data = JSON.parse(result.data.data.respuestaApi)
         const respuestaApi = data[0]
         return respuestaApi
@@ -324,7 +371,11 @@ export const useUserStore = defineStore('user', {
     },
     async enviarCorreo(correo: any) {
       try {
-        const result = await cencoApi.post("userData/enviar-correo/", correo)
+        const result = await cencoApi.post("userData/enviar-correo/", correo,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         return result
       } catch (error) {
         console.log("Error: " + error)
@@ -333,7 +384,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerDatosSolicitante(idSolicitante: number) {
       try {
-        await cencoApi.get("userData/obtener-datos-solicitante/" + idSolicitante).then((result) => {
+        await cencoApi.get("userData/obtener-datos-solicitante/" + idSolicitante,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }).then((result) => {
           if (result.data.data != "") {
             const statusC = result.status
             const respuestaApi = JSON.parse(result.data.data)
@@ -352,7 +407,12 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerConductasUsuario(idUsuario: number) {
       try {
-        const res = await cencoApi.get("userData/obtener-conductas-usuario/" + idUsuario)
+        const res = await cencoApi.get("userData/obtener-conductas-usuario/" + idUsuario,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         if (res != null) {
           const statusC = res.status
           const data = JSON.parse(res.data.data.conductas)
@@ -366,7 +426,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerAforo() {
       try {
-        const result = await cencoApi.get("userData/aforo")
+        const result = await cencoApi.get("userData/aforo",{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         const data = JSON.parse(result.data.data.respuestaApi)
         const respuestaApi = data[0]
         this.aforo = respuestaApi
@@ -378,7 +442,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerInformacionAforo(idUsuario: number) {
       try {
-        const result = await cencoApi.get("userData/informacion-aforo/" + idUsuario)
+        const result = await cencoApi.get("userData/informacion-aforo/" + idUsuario,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         const data = JSON.parse(result.data.data.respuestaApi)
         const respuestaApi = data[0]
         this.informacionAforo = data
@@ -390,7 +458,11 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerSolicitudesUsuario(idUsuario: number) {
       try {
-        const res = await cencoApi.get("userData/obtener-solicitudes-por-usuario/" + idUsuario)
+        const res = await cencoApi.get("userData/obtener-solicitudes-por-usuario/" + idUsuario,{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         if (res != null) {
           const statusC = res.status
           const data = JSON.parse(res.data.data)

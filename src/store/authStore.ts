@@ -14,7 +14,11 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async createUser(userCreate: ICreateUser) {
       try {
-        const { status, data } = await cencoApi.post("auth/registrar-usuario-normal", userCreate);
+        const { status, data } = await cencoApi.post("auth/registrar-usuario-normal",userCreate, {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        });
         this.user = data.usuario;
         return { status };
       } catch (error) {
@@ -24,7 +28,11 @@ export const useAuthStore = defineStore('auth', {
     },
     async loginUser(userLogin: ILoginUser){
       try {
-        const res = await cencoApi.post("auth/login", userLogin);
+        const res = await cencoApi.post("auth/login", userLogin, {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        });
         if (res.status === 200) {
           this.setToken(res.data.data.sessionToken);
           const arregloUsuario = JSON.parse(res.data.data.usuario)

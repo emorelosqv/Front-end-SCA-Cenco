@@ -7,7 +7,8 @@ export const useConfigStore = defineStore('config', {
       status: 0,
       departamentos: [],
       municipios: [],
-      tiendas: []
+      tiendas: [],
+      areasTiendas: []
     }
   },
   actions: {
@@ -52,11 +53,26 @@ export const useConfigStore = defineStore('config', {
         console.log( "Error: "+error)
         return error
       }
+    },
+    async obtenerAreasTiendas(){
+      try {       
+        const result = await cencoApi.get("config/obtener-areas-tiendas/",{
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
+          this.areasTiendas = JSON.parse(result.data.data)
+          return result.status
+      } catch (error) {
+        console.log( "Error: "+error)
+        return error
+      }
     }
   },
   getters:{
     getDepartamentos: (state) => state.departamentos,
     getMunicipios: (state) => state.municipios,
-    getTiendas: (state) => state.tiendas
+    getTiendas: (state) => state.tiendas,
+    getAreasTiendas: (state) => state.areasTiendas
   }
 })

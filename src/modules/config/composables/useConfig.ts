@@ -20,17 +20,23 @@ const useConfig = () => {
         return result
     }
 
+    const obtenerAreasTiendas = async () => {
+        const result = await configStore.obtenerAreasTiendas()
+        return result
+    }
 
     return {
         //methods
         obtenerDepartamentos,
         obtenerMunicipios,
         obtenerTiendas,
+        obtenerAreasTiendas,
 
         //computed
         useGetDepartamentos: computed(()=>configStore.getDepartamentos),
         useGetMunicipios: computed(()=>configStore.getMunicipios),
         useGetTiendas: computed(()=>configStore.getTiendas),
+        useGetAreasTiendas: computed(() => configStore.getAreasTiendas)
 
     };
 }

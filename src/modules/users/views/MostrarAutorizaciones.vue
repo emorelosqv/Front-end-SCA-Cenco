@@ -1,25 +1,28 @@
 <template>
     <DashboardLayout>
-        <div class="d-flex">
-            <div class="overflow-auto">
-                <div class="card m-2">
-                    <div class="row g-0">
-                        <div class="col-md-12">
-
-                            <div class="card-body">
-
-                                <h5 class="card-title">Solicitud Nro {{ solici[0].ConsecutivoAutorizacion }} </h5>
-                                <p class="card-text">
-                                    {{ solici[0].DescripcionSolicitud }}
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">{{ solici[0].FechaSolicitud }}</small>
-                                </p>
-                            </div>
+        <div class="container" v-for="soli in solici" :key="soli.ConsecutivoAutorizacion">
+                <div class="row m-2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Solicitud Nro. {{ soli.ConsecutivoAutorizacion }} </h5>
+                            <p class="card-text">
+                               <strong>Descripción de la solicitud:</strong> {{ soli.DescripcionSolicitud }}
+                            </p>
+                            <p class="card-text">
+                                <strong>Fecha de ingreso seleccionada: </strong><small class="text-muted">{{ soli.FechaSolicitud }}</small>
+                            </p>                          
+                            <p class="card-text">
+                                <strong>Tienda: </strong><small class="text-muted">{{ soli.NombreTiendaSolicitud }}  <strong> Bandera: </strong> {{ soli.BanderaTienda }}</small>
+                            </p>
+                            <p class="card-text">
+                                <strong>Estado de la solicitud: </strong><small class="text-muted">{{ soli.EstadoSolicitud}}</small>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </DashboardLayout>
 </template>
@@ -37,4 +40,5 @@ onBeforeMount(() => {
 })
 
 const solici = useObtenerSolicitudesUsuario
+
 </script>

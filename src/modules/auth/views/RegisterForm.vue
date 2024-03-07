@@ -161,7 +161,7 @@ import Footer from '@Components/Footer.vue'
 const registerForm = ref({
     FotoFrontal: '',
     TipoIdentificacion: '',
-    Identifacion: '',
+    Identificacion: '',
     Correo: '',
     NombreCompleto: '',
     Password: '',
@@ -188,7 +188,7 @@ const onSubmit = async () => {
                 router.push({ name: 'login' })
                 swal("Success", "Usuario creado exitosamente", 'success')
             } else {
-                swal('Error', 'Credenciales invalidas', 'error')
+                swal('Error', 'Datos incorrectos', 'error')
             }
         }
     } catch (error) {

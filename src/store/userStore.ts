@@ -458,17 +458,21 @@ export const useUserStore = defineStore('user', {
     },
     async obtenerSolicitudesUsuario(idUsuario: number) {
       try {
-        const res = await cencoApi.get("userData/obtener-solicitudes-por-usuario/" + idUsuario,{
+        await cencoApi.get("userData/obtener-solicitudes-por-usuario/" + idUsuario,{
           headers: {
             "Access-Control-Allow-Origin": "*"
           }
+        }).then((result) => {
+          if (result.data.data != "") {
+            const statusC = result.status
+            this.solicitudesUsuario = JSON.parse(result.data.data)
+            return { statusC, result }
+          } else {
+            this.solicitudesUsuario = []
+          }
+        }).catch((error) => {
+          console.log(error)
         })
-        if (res != null) {
-          const statusC = res.status
-          const data = JSON.parse(res.data.data)
-          this.solicitudesUsuario = data
-          return { statusC, res }
-        }
       } catch (error) {
         console.log("Error: " + error)
         return error

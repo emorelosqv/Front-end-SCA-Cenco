@@ -219,19 +219,11 @@
                                 <div class="mb-3">
                                     <label for="inputAreaAgendarAutorizacion"><strong>Seleccione el área
                                             solicitante</strong></label>
-                                    <!-- <select class="select form-control form-control-lg"
-                                        v-model="agendarAutorizacionForm.Tienda" id="tienda" required>
-                                        <option v-for="tienda in tiendas" :value="tienda.id" :key="tienda.id">
-                                            {{ tienda.tienda }}
+                                    <select class="select form-control form-control"
+                                        v-model.number="agendarAutorizacionForm.Area" id="areaTienda" required>
+                                        <option v-for="area in areasTiendas" :value="area.Id" :key="area.Id">
+                                            {{ area.NombreArea }}
                                         </option>
-                                    </select> -->
-                                    <select class="select form-control" v-model.number="agendarAutorizacionForm.Area"
-                                        id="tienda" required>
-                                        <option value="1"> Área 1</option>
-                                        <option value="2"> Área 2</option>
-                                        <option value="3"> Área 3</option>
-                                        <option value="4"> Área 4</option>
-                                        <option value="5"> Área 5</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -262,7 +254,8 @@ let correoUsuario = ''
 
 const { obtenerDepartamentos, useGetDepartamentos,
     obtenerMunicipios, useGetMunicipios,
-    obtenerTiendas, useGetTiendas } = useConfig()
+    obtenerTiendas, useGetTiendas,
+    obtenerAreasTiendas, useGetAreasTiendas } = useConfig()
 
 onBeforeMount(() => {
     identificacionUsuario = localStorage.getItem("identifiacionUsuario")
@@ -272,8 +265,10 @@ onBeforeMount(() => {
 
 onMounted(() => {
     obtenerDepartamentos()
+    obtenerAreasTiendas()
 })
 const departamentos = useGetDepartamentos
+const areasTiendas = useGetAreasTiendas
 
 function changeDepartamento() {
     const valDepartamento = document.getElementById('departamento').value
@@ -296,9 +291,9 @@ const agendarAutorizacionForm = ref({
     TieneHerramientas: '',
     ActivosSalida: '',
     UnSoloDia: '',
-    FechaAutorizacion: '0000-00-00',
-    RangoFechaInicialAutorizacion: '0000-00-00',
-    RangoFechaFinalAutorizacion: '0000-00-00',
+    FechaAutorizacion: '',
+    RangoFechaInicialAutorizacion: '',
+    RangoFechaFinalAutorizacion: '',
     HoraEntradaAutorizacion: '',
     HoraSalidaAutorizacion: '',
     DocumentoArl: null,
